@@ -38,6 +38,6 @@ def b_value(closed_list_forward, closed_list_backward):
         b(node_forward)
      
 
-def postProcess(closed_list_forward, closed_list_backward, heuristic, problem):
+def post_process(closed_list_forward, closed_list_backward, heuristic, problem):
     d_value(closed_list_forward, closed_list_backward, heuristic, problem)
     b_value(closed_list_forward, closed_list_backward)
