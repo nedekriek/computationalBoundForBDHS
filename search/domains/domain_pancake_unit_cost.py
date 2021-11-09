@@ -1,6 +1,6 @@
 from .domain import Domains
 
-class domain_pancake_unit_cost(Domains):
+class Domain_pancake_unit_cost(Domains):
 
     def __init__(self, initial, goal): 
         self.cost_of_actions_used_for_expansion=[1]     #iota and epsilon must be 1

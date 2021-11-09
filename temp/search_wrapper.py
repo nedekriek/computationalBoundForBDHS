@@ -28,7 +28,7 @@ class SearchOnly:
         solution_nodes_forward, closed_list_forward = a_star_search(forward, self.heuristic)  
         solution_nodes_backward, closed_list_backward = a_star_search(backward, self.heuristic)
 
-        maxNodeId = Node.count
+        max_node_id = Node.count
         Node.count=1                #The counter must be reset for ever (intail_state, goal_state) pair for correct and efficient encoding
 
         if forward.cost_of_actions_used_for_expansion:
@@ -36,17 +36,17 @@ class SearchOnly:
             forwardIota=reduce(gcd, forward.cost_of_actions_used_for_expansion)
             backwardEpsilon=min(backward.cost_of_actions_used_for_expansion)
             backwardIota=reduce(gcd,backward.cost_of_actions_used_for_expansion)
-            global_epsilon=min(forwardEpsilon,backwardEpsilon)
+            epsilon_global=min(forwardEpsilon,backwardEpsilon)
             global_iota=reduce(gcd,[forwardIota,backwardIota])
         else:
-            global_epsilon=0
+            epsilon_global=0
             global_iota=0
 
         #calculate d and b values
         post_process(closed_list_forward, closed_list_backward, self.heuristic, forward)
 
         self.current_solution_length=solution_nodes_forward[0].g 
-        data=[maxNodeId, global_epsilon, global_iota, solution_nodes_forward, solution_nodes_backward, closed_list_forward, closed_list_backward]
+        data=[max_node_id, epsilon_global, global_iota, solution_nodes_forward, solution_nodes_backward, closed_list_forward, closed_list_backward]
         return data
 
     def run(self):

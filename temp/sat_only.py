@@ -23,7 +23,7 @@ class Sat:
                             "experiment3":-1,
                             "experiment4":1}
         
-    def _solveSAT(self, softClauses, hardClauses, softClauseWeight, maxNodeId, must_expand_pair_nodes):
+    def _solveSAT(self, softClauses, hardClauses, softClauseWeight, max_node_id, must_expand_pair_nodes):
         rc2=RC2(WCNF())
         for clause in hardClauses:
             rc2.add_clause(clause)
@@ -39,7 +39,7 @@ class Sat:
         number_of_nodes_set_to_true=0
         number_of_must_expand_nodes_set_to_true=0
         for literal in model:
-            if literal>0 and literal<=maxNodeId:
+            if literal>0 and literal<=max_node_id:
                 number_of_nodes_set_to_true+=1
             if literal in must_expand_pair_nodes:
                 number_of_must_expand_nodes_set_to_true+=1
@@ -64,7 +64,7 @@ class Sat:
                 writer=csv.writer(file)
                 writer.writerow(headers)
         for case in self.index:
-            maxNodeId, dummy_variable, c_star, collision_below_c_star = deserialize(self.constraintsDir+"/encoding_information/"+case+".obj")
+            max_node_id, dummy_variable, c_star, collision_below_c_star = deserialize(self.constraintsDir+"/encoding_information/"+case+".obj")
             row={"case":case, "c_star":c_star, "collision_below_c_star":collision_below_c_star,
                  "ex1":None, "ex2":None, "ex3":None, "ex4":None, "MEP_ex1":None, "MEP_ex2":None, "MEP_ex3":None, "MEP_ex4":None}
             
@@ -75,7 +75,7 @@ class Sat:
             must_expand_pair_nodes=set(soft_clauses)
             
             if "experiment1" in experiments:
-                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment1"], maxNodeId, must_expand_pair_nodes)
+                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment1"], max_node_id, must_expand_pair_nodes)
                 
                 row["ex1"]=number_of_nodes_set_to_true
                 row["MEP_ex1"]=number_of_must_expand_nodes_set_to_true
@@ -86,7 +86,7 @@ class Sat:
                     self.deserialize_must_expand_pairs(soft_clauses, hard_clauses, constraints_deserialized, case)
                 self.deserialize_parents(soft_clauses, hard_clauses, constraints_deserialized, case)
                 
-                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment2"], maxNodeId, must_expand_pair_nodes)
+                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment2"], max_node_id, must_expand_pair_nodes)
                 
                 row["ex2"]=number_of_nodes_set_to_true
                 row["MEP_ex2"]=number_of_must_expand_nodes_set_to_true
@@ -103,7 +103,7 @@ class Sat:
                 data=deserialize(self.constraintsDir+"/nodes_bound_by_c_star/"+case+".obj")
                 soft_clauses.extend(data)
 
-                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment3"], maxNodeId, must_expand_pair_nodes)
+                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment3"], max_node_id, must_expand_pair_nodes)
 
                 row["ex3"]=number_of_nodes_set_to_true
                 row["MEP_ex3"]=number_of_must_expand_nodes_set_to_true
@@ -122,7 +122,7 @@ class Sat:
                 if not collision_below_c_star:
                     data=deserialize(self.constraintsDir+"/no_collision/"+case+".obj")
 
-                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment4"], maxNodeId, must_expand_pair_nodes)
+                number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model=self._solveSAT(soft_clauses,hard_clauses, self.soft_clause_weight["experiment4"], max_node_id, must_expand_pair_nodes)
 
                 row["ex4_original"]=number_of_nodes_set_to_true
                 row["ex4"]=number_of_nodes_set_to_true+1

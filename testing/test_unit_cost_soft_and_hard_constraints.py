@@ -70,7 +70,7 @@ class Test_constraints(unittest.TestCase):
     
         self.experiment=Experiment("unitTest", problemEightPuzzleUnitCost, None, None, "unitTests/test.txt")
         self.experiment.max_node_id=20
-        self.experiment.global_epsilon=1
+        self.experiment.epsilon_global=1
         self.experiment.global_iota=1
 
     def test_must_expand_pairs(self):
