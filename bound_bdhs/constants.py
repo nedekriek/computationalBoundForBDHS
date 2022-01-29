@@ -55,3 +55,16 @@ soft_clause_weight_by_bound_type={'vc_g_mx':-1,
                                   'lb_nx_with_g_limits':-1,
                                   'ub_nx_with_g_limits':1}
 
+output_headers = ['problem',
+                  'bound',
+                  'bound_type',
+                  'locality',            
+                  'solution_length',
+                  'solution_cost',
+                  'collision_below_c_star',
+                  'max_node_id',
+                  'avaliable_variable',
+                  'number_of_nodes_set_to_true',
+                  'number_of_must_expand_nodes_set_to_true',
+                  ]
+

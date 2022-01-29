@@ -19,7 +19,7 @@ def search(domain, heuristic, problem: str, search_results_path: str):
         solution_nodes_b, closed_list_b = a_star_search(problem_b, heuristic)
 
         max_node_id = Node.count
-        Node.count=1                #The counter must be reset for ever (intail_state, goal_state) pair for correct and efficient encoding
+        Node.count = 1                #The counter must be reset for every (intail_state, goal_state) pair for correct and efficient encoding
 
         if problem_f.cost_of_actions_used_for_expansion:
             epsilon_f=min(problem_f.cost_of_actions_used_for_expansion)
@@ -40,5 +40,5 @@ def search(domain, heuristic, problem: str, search_results_path: str):
 
         serialize([max_node_id, epsilon_global, iota_global, solution_nodes_f, solution_nodes_b, closed_list_f, closed_list_b ], search_results_path)
         
-        return solution_length, solution_cost
+        return solution_length, solution_cost, max_node_id
     return None, None

@@ -3,7 +3,7 @@ from itertools import chain
 
 
 """WARNING: dependance on buckets_clauses being correctly constructed by the buckets_clauses function in the buckets_clauses modual."""
-def gLimit_clauses(bucket_aliases_f: list, bucket_aliases_b: list, c_star:int, epsilon_global:int, avaliable_variable:int):
+def g_limit_clauses(bucket_aliases_f: list, bucket_aliases_b: list, c_star:int, epsilon_global:int, avaliable_variable:int):
     
     #map g value to aliases 
     g_lim_aliases_f={i:avaliable_variable+1 for i in range(c_star+1)}  #by defintion a glim band is not empty so all must be included
@@ -74,4 +74,4 @@ def gLimit_clauses(bucket_aliases_f: list, bucket_aliases_b: list, c_star:int, e
         b=avaliable_variable
         avaliable_variable+=1
 
-    return avaliable_variable, g_lim_clauses+g_lim_split_clauses+xor_split_clauses
+    return avaliable_variable, [None, g_lim_clauses+g_lim_split_clauses+xor_split_clauses]

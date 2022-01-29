@@ -1,30 +1,58 @@
 import array
-from aStar.utilities.serialization import serialize, deserialize
+
 from pysat.formula import WCNF
 from pysat.examples.rc2 import RC2
 
-def solveSAT(softClauses, hardClauses, softClauseWeight, max_node_id, must_expand_pair_nodes):
+from .constants import soft_clause_weight_by_bound_type, bounds_to_clause
+from .utils import serialize, deserialize
+
+
+def solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight):
         rc2=RC2(WCNF())
-        for clause in hardClauses:
+        for clause in hard_clauses:
             rc2.add_clause(clause)
         
-        if softClauseWeight == 1:
-            for clause in softClauses:
+        if soft_clause_weight == 1:
+            for clause in soft_clauses:
                 rc2.add_clause(array.array("q",[clause]), weight=1)
-        elif softClauseWeight ==-1:
-            for clause in softClauses:
+        elif soft_clause_weight ==-1:
+            for clause in soft_clauses:
                 rc2.add_clause(array.array("q",[-1*clause]), weight=1)
 
         model=rc2.compute()
-        number_of_nodes_set_to_true=0
-        number_of_must_expand_nodes_set_to_true=0
-        for literal in model:
-            if literal>0 and literal<=max_node_id:
-                number_of_nodes_set_to_true+=1
-            if literal in must_expand_pair_nodes:
-                number_of_must_expand_nodes_set_to_true+=1
-        
-        return [number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true ,model]
 
-def sat(problem: str, bound_type: str, constraints_path: str):
-    return
+        
+        return model
+
+def sat(max_node_id: int, bound: str, sat_path: str, path_suffix: str, bound_constraints_path_prefix: str):
+    soft_clause_weight = soft_clause_weight_by_bound_type[bound]
+    bound_clauses = bounds_to_clause[bound]
+    must_expand_pair_nodes, _ = deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix)
+
+    soft_clauses = []
+    hard_clauses = []
+
+    for clause_set in bound_clauses:
+        soft, hard = deserialize(bound_constraints_path_prefix+clause_set+path_suffix)
+        if soft:
+            soft_clauses.append(soft)
+        if hard:
+            hard_clauses.append(hard)
+
+    sat_model = solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight)
+
+    number_of_nodes_set_to_true=0
+    number_of_must_expand_nodes_set_to_true=0
+        
+    for literal in sat_model:
+        if literal>0 and literal<=max_node_id:
+            number_of_nodes_set_to_true+=1
+        if literal in must_expand_pair_nodes:            
+            number_of_must_expand_nodes_set_to_true+=1
+
+    serialize(sat_model, sat_path)    
+
+    return number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true
+
+        
+    

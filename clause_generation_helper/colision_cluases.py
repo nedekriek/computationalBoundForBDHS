@@ -34,7 +34,7 @@ def no_collision_clauses(common_child_collisions: list, nodes_adjacent_to_termin
         no_collision_clauses.append(array.array("q",[-1*node for node in pair]))
     for node in nodes_adjacent_to_terminal:
         no_collision_clauses.append(array.array("q",[-1*node]))
-    return no_collision_clauses
+    return [None, no_collision_clauses]
 
 def at_least_one_collision_clauses(common_child_collisions: list, nodes_adjacent_to_terminal:list , avaliable_variable:int):
     possible_collisions=[]
@@ -49,5 +49,5 @@ def at_least_one_collision_clauses(common_child_collisions: list, nodes_adjacent
 
     possible_collisions.extend(nodes_adjacent_to_terminal)
     at_least_one_collision_clauses.append(array.array("q",possible_collisions))
-    return [avaliable_variable , at_least_one_collision_clauses]
+    return avaliable_variable , [None, at_least_one_collision_clauses]
 
