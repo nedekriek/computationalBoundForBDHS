@@ -14,13 +14,14 @@ def bucket_alias_identity(nodes_in_bucket, alias: int):
     for node in nodes_in_bucket:
         clauses.append(array.array("q", [-1*alias, node.id]))
 
-    return alias, clauses
+    return clauses
 
 """WARNING: dependance on might_expand_paired_buckets and  must_expand_paired_buckets being correctly constructed by the visible_search_space function in the utils modual."""
 def buckets_clauses(might_expand_paired_buckets: list, must_expand_paired_buckets: list, buckets_f:dict, buckets_b:dict, avaliable_variable:int):
     soft_clause=set()
     alias_clauses=[]
     bucket_not_expanded_clause=[]
+    # NOTE: Used to construct glimit clauses
     bucket_aliases_f=[]
     bucket_aliases_b=[]
     

@@ -45,11 +45,10 @@ def visible_search_space(node_lower_bound_func, buckets_f:dict, buckets_b:dict, 
     for node_values_f in buckets_f.keys():
         for node_values_b in buckets_b.keys():
             lb= node_lower_bound_func(node_values_f, node_values_b) 
-            if lb <= c_star:
-                if lb < c_star:
-                    must_expand_paired_buckets.append([node_values_f, node_values_b])
-                else:
-                    might_expand_paired_buckets.append([node_values_f, node_values_b])
+            if lb < c_star:
+                must_expand_paired_buckets.append([node_values_f, node_values_b])
+            elif lb == c_star:
+                might_expand_paired_buckets.append([node_values_f, node_values_b])
     
     return must_expand_paired_buckets, might_expand_paired_buckets
 
@@ -66,11 +65,15 @@ def solution_is_below_c_star(node_lower_bound_func, solution_nodes_f: list, clos
                 if index_f == path_len-1:
                     return True
                 node_f=path[index_f]
+                counter_example = False
                 for backward_index in range(index_f+1, path_len):
                     node_b=closed_list_b[path[backward_index].state]
                     node_values_f=get_node_values(node_f, epsilon_global, iota_global, global_info)
                     node_values_b=get_node_values(node_b, epsilon_global, iota_global, global_info)
                     lb=node_lower_bound_func(node_values_f, node_values_b)
                     if lb >= c_star:
-                        break ##this was incorrect as it said return false
+                        counter_example = True
+                        break 
+                if counter_example:
+                    break
         return False

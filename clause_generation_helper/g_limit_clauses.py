@@ -6,15 +6,16 @@ from itertools import chain
 def g_limit_clauses(bucket_aliases_f: list, bucket_aliases_b: list, c_star:int, epsilon_global:int, avaliable_variable:int):
     
     #map g value to aliases 
-    g_lim_aliases_f={i:avaliable_variable+1 for i in range(c_star+1)}  #by defintion a glim band is not empty so all must be included
-    g_lim_aliases_b={i:avaliable_variable+1 for i in range(c_star+1)}
+    num_alias = c_star+1    # for only one direction
+    g_lim_aliases_f={i:avaliable_variable+i for i in range(num_alias)}  #by defintion a glim band is not empty so all must be included
+    g_lim_aliases_b={i:avaliable_variable+num_alias+i for i in range(num_alias)}
 
-    avaliable_variable+=2*len(g_lim_aliases_f)+1 #set the newest available variable 
+    avaliable_variable+=2*num_alias+1 #set the newest available variable 
 
     #define g_lims
     g_lim_clauses=[]
     
-    #dictionary mapping glimits to the buckets that they DONT include
+    #dictionary mapping glimits to the buckets that they DO NOT expand
     g_lims_f_by_alias={i:[] for i in g_lim_aliases_f.values()}
     g_lims_b_by_alias={i:[] for i in g_lim_aliases_b.values()}
 
@@ -32,7 +33,7 @@ def g_limit_clauses(bucket_aliases_f: list, bucket_aliases_b: list, c_star:int, 
             g_lim_b=g_lim_aliases_b[i]
             g_lims_b_by_alias[g_lim_b].append(alias)
 
-    for g_lim, buckets in chain(g_lims_f_by_alias, g_lims_b_by_alias):
+    for g_lim, buckets in chain(g_lims_f_by_alias.items(), g_lims_b_by_alias.items()):
         #forward implication (glim to buckets)
         for bucket in buckets:
             g_lim_clauses.append(array("q",[-1*g_lim, -1*bucket]))
@@ -46,7 +47,11 @@ def g_limit_clauses(bucket_aliases_f: list, bucket_aliases_b: list, c_star:int, 
 
     for g_lim_f in range(gLSum+1):
         g_lim_b=gLSum-g_lim_f
+        
+        g_lim_f=g_lim_aliases_f[g_lim_f]
+        g_lim_b=g_lim_aliases_b[g_lim_b]
         split_aliases.append(avaliable_variable)
+        
         #forward implication
         g_lim_split_clauses.append(array("q",[-1*avaliable_variable, g_lim_f]))
         g_lim_split_clauses.append(array("q",[-1*avaliable_variable, g_lim_b]))

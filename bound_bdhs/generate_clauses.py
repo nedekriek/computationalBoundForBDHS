@@ -1,6 +1,6 @@
 from os.path import exists
 
-from .constants import bounds
+from .constants import clause_to_bound
 from .utils import serialize, deserialize
 
 
@@ -8,16 +8,12 @@ from .utils import serialize, deserialize
 from ..clause_generation_helper.bucket_clauses import buckets_clauses
 from ..clause_generation_helper.must_expand_clauses import must_expand_clauses
 from ..clause_generation_helper.perantage_clauses import parentage_clauses
-from ..clause_generation_helper.bucket_clauses import get_collision_locations, no_collision_clauses, at_least_one_collision_clauses
+from ..clause_generation_helper.colision_clauses import get_collision_locations, no_collision_clauses, at_least_one_collision_clauses
 from ..clause_generation_helper.g_limit_clauses import g_limit_clauses
 
 #clause utils
 from ..clause_generation_helper.utils import buckets, visible_search_space, front_to_back_lb, front_to_front_lb, solution_is_below_c_star
 
-clause_dependency={"buckets_clauses": [buckets, visible_search_space, buckets_clauses],
-                   "":[]
-
-}
 
 def clause_generation(bound: str, bound_type: str, locality: str, problem: str, bound_constraints_path_prefix: str, path_suffix, search_path: str):
     '''
@@ -31,20 +27,21 @@ def clause_generation(bound: str, bound_type: str, locality: str, problem: str, 
         - no_collision_clauses
         - at_least_one_collision_clauses
     '''
-    required_clauses=bounds[bound]
+    required_clauses=clause_to_bound[bound]
 
     requires_recalculation=False  
 
     for clause_type in required_clauses:
         path=bound_constraints_path_prefix+clause_type+'/'+path_suffix
-        if not exists(path):
+        # If any clause type is missing recalculate all clauses as there are 2 groups of highly dependent clauses for which numbering needs to stay consistant
+        if not exists(path):                        
             requires_recalculation=True
             break
 
-    # WARNING IF ONE CLAUSE NEEDS RECUCLATING ALL NEED TO BE RECALCULATED AS THE CONSISTENCY OF VARIABLE NUMBERING MUST BE MAINTAINED
+    # WARNING IF ONE CLAUSE NEEDS RECUCLATING ALL NEED TO BE RECALCULATED AS THE CONSISTENCY OF VARIABLE NUMBERING MUST BE MAINTAINED IN THE HIGHLY DEPENDANT CLAUSE GROUPS
     if requires_recalculation:
         max_node_id, epsilon_global, iota_global, solution_nodes_f, solution_nodes_b, closed_list_f, closed_list_b = deserialize(search_path+problem+".obj")
-        avaliable_variable=max_node_id
+        avaliable_variable=max_node_id+1    #every method assumes that the available variable passed to it has not been used in any other clause and is not a node id
 
         global_info = True if locality == 'global' else False
         node_lower_bound_func = front_to_back_lb if bound_type == 'front_to_back' else front_to_front_lb
@@ -54,7 +51,7 @@ def clause_generation(bound: str, bound_type: str, locality: str, problem: str, 
         # Dependant set 1
         buckets_f = buckets(closed_list_f, epsilon_global, iota_global, global_info)
         buckets_b = buckets(closed_list_b, epsilon_global, iota_global, global_info)
-        must_expand_paired_buckets, might_expand_paired_buckets = visible_search_space (node_lower_bound_func, buckets_f, buckets_b, solution_nodes_f[0].g)
+        must_expand_paired_buckets, might_expand_paired_buckets = visible_search_space(node_lower_bound_func, buckets_f, buckets_b, solution_nodes_f[0].g)
 
         mep = must_expand_clauses(must_expand_paired_buckets, buckets_f, buckets_b)
         serialize(mep, bound_constraints_path_prefix+'must_expand_clauses/'+path_suffix)

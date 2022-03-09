@@ -27,7 +27,7 @@ def solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight):
 def sat(max_node_id: int, bound: str, sat_path: str, path_suffix: str, bound_constraints_path_prefix: str):
     soft_clause_weight = soft_clause_weight_by_bound_type[bound]
     bound_clauses = bounds_to_clause[bound]
-    must_expand_pair_nodes, _ = deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix)
+    must_expand_pair_nodes, _ =set(deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix))
 
     soft_clauses = []
     hard_clauses = []
