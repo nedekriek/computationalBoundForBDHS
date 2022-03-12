@@ -60,12 +60,12 @@ for domain_category in domain_categories:
 
                 if run_constraints:
                     # WARNING IF ONE CLAUSE NEEDS RECUCLATING ALL NEED TO BE RECALCULATED AS THE CONSISTENCY OF VARIABLE NUMBERING MUST BE MAINTAINED
-                    avaliable_variable, collision_below_c_star = clause_generation(bound, bound_type, locality, problem, bound_constraints_path_prefix, path_suffix, search_results_path)
+                    avaliable_variable, collision_below_c_star = clause_generation(heuristic, bound, bound_type, locality, problem, bound_constraints_path_prefix, path_suffix, search_results_path)
 
                 if run_sat:
                    sat_path = paths[2]+'/'+bound+'/'+bound_type+'/'+locality+'/'
 
-                   number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true = sat(max_node_id, bound, sat_path, path_suffix, bound_constraints_path_prefix)
+                   number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true = sat(collision_below_c_star, max_node_id, bound, bound_type, sat_path, path_suffix, bound_constraints_path_prefix)
 
                 writer.writerow([problem,
                                  bound,
@@ -78,6 +78,7 @@ for domain_category in domain_categories:
                                  avaliable_variable,
                                  number_of_nodes_set_to_true,
                                  number_of_must_expand_nodes_set_to_true,
+                                 number_of_nodes_set_to_true +1 if not collision_below_c_star else number_of_nodes_set_to_true
                                  ]
                                  )
         csv_file.close()
