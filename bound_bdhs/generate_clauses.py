@@ -1,3 +1,5 @@
+import sys 
+sys.path.append("..") 
 from os.path import exists
 
 from .constants import clause_to_bound
@@ -5,9 +7,8 @@ from .utils import serialize, deserialize
 
 
 #clauses
-from ..clause_generation_helper.bucket_clauses import buckets_clauses
+#from ..clause_generation_helper.bucket_clauses import buckets_clauses
 from ..clause_generation_helper.expand_clauses import must_expand_clauses
-from ..clause_generation_helper.might_expand_clauses import might_expand_clauses
 from ..clause_generation_helper.perantage_clauses import parentage_clauses
 from ..clause_generation_helper.colision_clauses import get_collision_locations, no_collision_clauses, at_least_one_collision_clauses
 from ..clause_generation_helper.g_limit_clauses import g_limit_clauses
