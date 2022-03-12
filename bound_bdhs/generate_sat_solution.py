@@ -24,9 +24,15 @@ def solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight):
         
         return model
 
-def sat(max_node_id: int, bound: str, sat_path: str, path_suffix: str, bound_constraints_path_prefix: str):
+def sat(collision_below_c_star: bool, max_node_id: int, bound: str, bound_type :str, sat_path: str, path_suffix: str, bound_constraints_path_prefix: str):
     soft_clause_weight = soft_clause_weight_by_bound_type[bound]
     bound_clauses = bounds_to_clause[bound]
+    if bound in ('ub_nx', 'ub_nx_with_g_limits'):
+        if collision_below_c_star:
+            bound_clauses.remove('no_collision_clauses')
+        else:
+            bound_clauses.remove('not_must_expand_pair_clause')
+
     must_expand_pair_nodes, _ =set(deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix))
 
     soft_clauses = []
