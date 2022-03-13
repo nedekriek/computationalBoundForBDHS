@@ -1,6 +1,6 @@
-from .domain import Domains
+from .domain import Domain
 
-class Domain_eight_puzzle_unit_cost(Domains):
+class Domain_eight_puzzle_unit_cost(Domain):
 
     def __init__(self, initial, goal):
         self.cost_of_actions_used_for_expansion=[1]     #iota and epsilon must be 1

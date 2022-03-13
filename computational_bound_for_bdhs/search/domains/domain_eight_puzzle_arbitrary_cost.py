@@ -1,6 +1,6 @@
-from .domain import Domains
+from .domain import Domain
 
-class Domain_eight_puzzle_arbitrary_cost(Domains):
+class Domain_eight_puzzle_arbitrary_cost(Domain):
     def __init__(self, initial, goal):
         self.cost_of_actions_used_for_expansion=set()
         initial=tuple((int(loc) %3,int(loc)//3) for loc in initial)

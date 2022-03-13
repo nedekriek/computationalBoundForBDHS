@@ -1,12 +1,12 @@
 import csv
 from datetime import datetime
 
-from bound_bdhs.constants import run_protocol_definitions, search_pattern, output_headers
-from bound_bdhs.utils import  initialiseFile, get_problems
+from computational_bound_for_bdhs.bound_bdhs.constants import run_protocol_definitions, search_pattern, output_headers
+from computational_bound_for_bdhs.bound_bdhs.utils import get_problems
 
-from bound_bdhs.generate_nodes import search
-from bound_bdhs.generate_clauses import clause_generation
-from bound_bdhs.generate_sat_solution import sat
+from computational_bound_for_bdhs.bound_bdhs.generate_nodes import search
+from computational_bound_for_bdhs.bound_bdhs.generate_clauses import clause_generation
+from computational_bound_for_bdhs.bound_bdhs.generate_sat_solution import sat
 
 # Manual Settings - None if you want everything to run
 domain_category = ['pancake']
@@ -28,8 +28,9 @@ for domain_category in domain_categories:
                  'results/'+domain.__name__+'/constraints' if run_constraints else None,
                  'results/'+domain.__name__+'/sat' if run_sat else None,
                  'results/'+domain.__name__+'/']
-        
-        csv_file = open(paths[3]+'results_'+str(datetime.now())+'.csv', "w")
+
+        version = datetime.now().strftime('date_%d_%m_%y_time_%H_%M')
+        csv_file = open(paths[3]+'results_'+version+'.csv', "w")
         writer=csv.writer(csv_file)
         writer.writerow(output_headers)
 

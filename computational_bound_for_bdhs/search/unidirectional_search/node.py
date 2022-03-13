@@ -1,5 +1,5 @@
 
-from fractions import gcd
+from math import gcd
 from functools import reduce
 
 class Node:
