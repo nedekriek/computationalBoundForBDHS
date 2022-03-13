@@ -37,7 +37,8 @@ bounds_to_clause={'vc_g_mx':['must_expand_clauses'],
                   'lb_nx':['must_expand_clauses', 'parent_clauses', 'at_least_one_collision_clauses','might_expand_clauses'],
                   'ub_nx':['not_must_expand_pair_clause', 'parent_clauses', 'no_collision_clauses', 'might_expand_clauses'],
                   'lb_nx_with_g_limits':['must_expand_clauses', 'parent_clauses', 'at_least_one_collision_clauses','might_expand_clauses', 'g_limit_clauses'],
-                  'ub_nx_with_g_limits':['not_must_expand_pair_clause', 'parent_clauses', 'no_collision_clauses', 'might_expand_clauses', 'g_limit_clauses']},
+                  'ub_nx_with_g_limits':['not_must_expand_pair_clause', 'parent_clauses', 'no_collision_clauses', 'might_expand_clauses', 'g_limit_clauses']
+                  }
                  
         #double check the above mapping
 

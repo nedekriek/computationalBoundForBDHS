@@ -26,7 +26,7 @@ def clause_generation(heuristic_function, bound: str, bound_type: str, locality:
         - no_collision_clauses
         - at_least_one_collision_clauses
     '''
-    required_clauses=bound_to_clause[bound]
+    required_clauses=bounds_to_clause[bound]
 
     requires_recalculation=False  
 
@@ -39,7 +39,7 @@ def clause_generation(heuristic_function, bound: str, bound_type: str, locality:
 
     # WARNING IF ONE CLAUSE NEEDS RECUCLATING ALL NEED TO BE RECALCULATED AS THE CONSISTENCY OF VARIABLE NUMBERING MUST BE MAINTAINED IN THE HIGHLY DEPENDANT CLAUSE GROUPS
     if requires_recalculation:
-        max_node_id, epsilon_global, iota_global, solution_nodes_f, solution_nodes_b, closed_list_f, closed_list_b = deserialize(search_path+problem+".obj")
+        max_node_id, epsilon_global, iota_global, solution_nodes_f, solution_nodes_b, closed_list_f, closed_list_b = deserialize(search_path)
         avaliable_variable=max_node_id+1    #every method assumes that the available variable passed to it has not been used in any other clause and is not a node id
         c_star = solution_nodes_f[0].g
         global_info = True if locality == 'global' else False

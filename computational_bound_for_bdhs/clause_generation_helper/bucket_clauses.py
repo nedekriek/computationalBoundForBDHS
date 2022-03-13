@@ -8,11 +8,11 @@ def bucket_alias_identity(nodes_in_bucket, alias: int):
     #forward implication
     implication=[-1*node.id for node in nodes_in_bucket]
     implication.append(alias)
-    clauses.append(array.array("q", implication))
+    clauses.append(array("q", implication))
 
     #backward implication
     for node in nodes_in_bucket:
-        clauses.append(array.array("q", [-1*alias, node.id]))
+        clauses.append(array("q", [-1*alias, node.id]))
 
     return clauses
 
@@ -40,8 +40,8 @@ def buckets_clauses(might_expand_paired_buckets: list, must_expand_paired_bucket
         
         alias_clauses.extend(bucket_alias_identity(buckets_f[forward_bucket], forward_alias))
         alias_clauses.extend(bucket_alias_identity(buckets_b[backward_bucket], backward_alias))
-        alias_clauses.append(array.array("q", [-1*bucket_not_expanded_alias, -1*forward_alias]))
-        alias_clauses.append(array.array("q", [-1*bucket_not_expanded_alias, -1*backward_alias]))
+        alias_clauses.append(array("q", [-1*bucket_not_expanded_alias, -1*forward_alias]))
+        alias_clauses.append(array("q", [-1*bucket_not_expanded_alias, -1*backward_alias]))
         bucket_not_expanded_clause.append(bucket_not_expanded_alias)
 
-    return bucket_aliases_f, bucket_aliases_b, avaliable_variable, [soft_clause, alias_clauses + [array.array("q", bucket_not_expanded_clause)]]
+    return bucket_aliases_f, bucket_aliases_b, avaliable_variable, [soft_clause, alias_clauses + [array("q", bucket_not_expanded_clause)]]

@@ -10,14 +10,14 @@ def parentage_clauses(must_expand_paired_buckets: list, might_expand_paired_buck
         if node_values_f not in done_f:
              for node in buckets_f[node_values_f]:
                 if node.parents:
-                    constraint=array.array("q", [-1*node.id])
+                    constraint=array("q", [-1*node.id])
                     for parent in node.parents:
                         constraint.append(parent.id)
                     parent_clauses.append(constraint)
         if node_values_b not in done_b:
              for node in buckets_b[node_values_b]:
                 if node.parents:
-                    constraint=array.array("q", [-1*node.id])
+                    constraint=array("q", [-1*node.id])
                     for parent in node.parents:
                         constraint.append(parent.id)
                     parent_clauses.append(constraint)

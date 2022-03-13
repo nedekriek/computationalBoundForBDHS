@@ -1,5 +1,5 @@
 import unittest
-import array
+from array import array
 import sys
 sys.path.append("..")
 
@@ -76,7 +76,7 @@ class Test_constraints(unittest.TestCase):
     def test_must_expand_pairs(self):
         soft_constraints, hard_constraints = self.experiment.must_expand_pairs(self.solution_nodes_forward_1, self.solution_nodes_backward_1, self.closed_list_forward_1, self.closed_list_backward_1)
         expected_soft_constraints = [self.closed_list_forward_1["b"].id, self.closed_list_backward_1["k"].id]
-        expected_hard_constraints = [array.array("q", [self.closed_list_forward_1["b"].id, self.closed_list_backward_1["k"].id])]
+        expected_hard_constraints = [array("q", [self.closed_list_forward_1["b"].id, self.closed_list_backward_1["k"].id])]
 
         self.assertIsInstance(soft_constraints, list)
         self.assertIsInstance(hard_constraints, list)
@@ -86,25 +86,25 @@ class Test_constraints(unittest.TestCase):
 
     def test_parents(self):
         soft_constraints, hard_constraints = self.experiment.parents(self.solution_nodes_forward_1, self.solution_nodes_backward_1, self.closed_list_forward_1, self.closed_list_backward_1)
-        expected_hard_constraints = [array.array("q", [self.closed_list_forward_1["a"].id, -1*self.closed_list_forward_1["b"].id]),
-                                    array.array("q", [self.closed_list_forward_1["a"].id, -1*self.closed_list_forward_1["c"].id]),
-                                    array.array("q", [self.closed_list_forward_1["a"].id, -1*self.closed_list_forward_1["d"].id]),
-                                    array.array("q", [self.closed_list_forward_1["b"].id, -1*self.closed_list_forward_1["e"].id]),
-                                    array.array("q", [self.closed_list_forward_1["d"].id, self.closed_list_forward_1["c"].id, -1*self.closed_list_forward_1["f"].id]),
-                                    array.array("q", [self.closed_list_forward_1["d"].id, -1*self.closed_list_forward_1["g"].id]),
-                                    array.array("q", [self.closed_list_forward_1["f"].id, -1*self.closed_list_forward_1["h"].id]),
-                                    array.array("q", [self.closed_list_forward_1["g"].id, self.closed_list_forward_1["f"].id, -1*self.closed_list_forward_1["i"].id]),
-                                    array.array("q", [self.closed_list_forward_1["i"].id, self.closed_list_forward_1["h"].id, -1*self.closed_list_forward_1["j"].id]),
+        expected_hard_constraints = [array("q", [self.closed_list_forward_1["a"].id, -1*self.closed_list_forward_1["b"].id]),
+                                    array("q", [self.closed_list_forward_1["a"].id, -1*self.closed_list_forward_1["c"].id]),
+                                    array("q", [self.closed_list_forward_1["a"].id, -1*self.closed_list_forward_1["d"].id]),
+                                    array("q", [self.closed_list_forward_1["b"].id, -1*self.closed_list_forward_1["e"].id]),
+                                    array("q", [self.closed_list_forward_1["d"].id, self.closed_list_forward_1["c"].id, -1*self.closed_list_forward_1["f"].id]),
+                                    array("q", [self.closed_list_forward_1["d"].id, -1*self.closed_list_forward_1["g"].id]),
+                                    array("q", [self.closed_list_forward_1["f"].id, -1*self.closed_list_forward_1["h"].id]),
+                                    array("q", [self.closed_list_forward_1["g"].id, self.closed_list_forward_1["f"].id, -1*self.closed_list_forward_1["i"].id]),
+                                    array("q", [self.closed_list_forward_1["i"].id, self.closed_list_forward_1["h"].id, -1*self.closed_list_forward_1["j"].id]),
 
-                                    array.array("q", [self.closed_list_backward_1["j"].id, -1*self.closed_list_backward_1["k"].id]),
-                                    array.array("q", [self.closed_list_backward_1["k"].id, -1*self.closed_list_backward_1["l"].id]),
-                                    array.array("q", [self.closed_list_backward_1["j"].id, -1*self.closed_list_backward_1["i"].id]),
-                                    array.array("q", [self.closed_list_backward_1["j"].id, -1*self.closed_list_backward_1["h"].id ]),
-                                    array.array("q", [self.closed_list_backward_1["i"].id, self.closed_list_backward_1["h"].id, -1*self.closed_list_backward_1["f"].id]),
-                                    array.array("q", [self.closed_list_backward_1["i"].id, -1*self.closed_list_backward_1["g"].id]),
-                                    array.array("q", [self.closed_list_backward_1["f"].id, -1*self.closed_list_backward_1["c"].id]),
-                                    array.array("q", [self.closed_list_backward_1["g"].id, self.closed_list_backward_1["f"].id, -1*self.closed_list_backward_1["d"].id]),
-                                    array.array("q", [self.closed_list_backward_1["d"].id, self.closed_list_backward_1["c"].id,  -1*self.closed_list_backward_1["a"].id ])]
+                                    array("q", [self.closed_list_backward_1["j"].id, -1*self.closed_list_backward_1["k"].id]),
+                                    array("q", [self.closed_list_backward_1["k"].id, -1*self.closed_list_backward_1["l"].id]),
+                                    array("q", [self.closed_list_backward_1["j"].id, -1*self.closed_list_backward_1["i"].id]),
+                                    array("q", [self.closed_list_backward_1["j"].id, -1*self.closed_list_backward_1["h"].id ]),
+                                    array("q", [self.closed_list_backward_1["i"].id, self.closed_list_backward_1["h"].id, -1*self.closed_list_backward_1["f"].id]),
+                                    array("q", [self.closed_list_backward_1["i"].id, -1*self.closed_list_backward_1["g"].id]),
+                                    array("q", [self.closed_list_backward_1["f"].id, -1*self.closed_list_backward_1["c"].id]),
+                                    array("q", [self.closed_list_backward_1["g"].id, self.closed_list_backward_1["f"].id, -1*self.closed_list_backward_1["d"].id]),
+                                    array("q", [self.closed_list_backward_1["d"].id, self.closed_list_backward_1["c"].id,  -1*self.closed_list_backward_1["a"].id ])]
         expected_soft_constraints = []
 
         self.assertIsInstance(soft_constraints, list)
@@ -120,7 +120,7 @@ class Test_constraints(unittest.TestCase):
         self.assertIsInstance(hard_constraints, list)
 
         collision_ids=[21,22,23,24,25,26,27,28]
-        expected_dummy_variables_and_singles=array.array("q", collision_ids+[self.closed_list_forward_1["h"].id, self.closed_list_forward_1["i"].id, self.closed_list_backward_1["c"].id, self.closed_list_backward_1["d"].id])
+        expected_dummy_variables_and_singles=array("q", collision_ids+[self.closed_list_forward_1["h"].id, self.closed_list_forward_1["i"].id, self.closed_list_backward_1["c"].id, self.closed_list_backward_1["d"].id])
         expected_pairs=[(self.closed_list_forward_1["a"].id, self.closed_list_backward_1["f"].id),
                         (self.closed_list_forward_1["a"].id, self.closed_list_backward_1["g"].id),
                         (self.closed_list_forward_1["c"].id, self.closed_list_backward_1["h"].id),
@@ -152,16 +152,16 @@ class Test_constraints(unittest.TestCase):
     def test_no_collision(self):
         soft_constraints, hard_constraints = self.experiment.no_collision(self.solution_nodes_forward_1, self.solution_nodes_backward_1, self.closed_list_forward_1, self.closed_list_backward_1)
         expected_soft_constraints = []
-        expected_hard_constraints = [array.array("q", [-1*self.closed_list_forward_1["a"].id, -1*self.closed_list_backward_1["f"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["a"].id, -1*self.closed_list_backward_1["g"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["c"].id, -1*self.closed_list_backward_1["h"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["c"].id, -1*self.closed_list_backward_1["i"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["d"].id, -1*self.closed_list_backward_1["h"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["d"].id, -1*self.closed_list_backward_1["i"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["f"].id, -1*self.closed_list_backward_1["j"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["g"].id, -1*self.closed_list_backward_1["j"].id]),
-                                    array.array("q", [-1*self.closed_list_forward_1["h"].id]), array.array("q",[-1*self.closed_list_forward_1["i"].id]),
-                                    array.array("q", [-1*self.closed_list_backward_1["c"].id]), array.array("q",[-1*self.closed_list_backward_1["d"].id])]
+        expected_hard_constraints = [array("q", [-1*self.closed_list_forward_1["a"].id, -1*self.closed_list_backward_1["f"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["a"].id, -1*self.closed_list_backward_1["g"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["c"].id, -1*self.closed_list_backward_1["h"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["c"].id, -1*self.closed_list_backward_1["i"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["d"].id, -1*self.closed_list_backward_1["h"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["d"].id, -1*self.closed_list_backward_1["i"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["f"].id, -1*self.closed_list_backward_1["j"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["g"].id, -1*self.closed_list_backward_1["j"].id]),
+                                    array("q", [-1*self.closed_list_forward_1["h"].id]), array("q",[-1*self.closed_list_forward_1["i"].id]),
+                                    array("q", [-1*self.closed_list_backward_1["c"].id]), array("q",[-1*self.closed_list_backward_1["d"].id])]
 
         self.assertIsInstance(soft_constraints, list)
         self.assertIsInstance(hard_constraints, list)

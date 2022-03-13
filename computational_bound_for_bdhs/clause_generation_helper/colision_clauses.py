@@ -26,16 +26,16 @@ def get_collision_locations(solution_nodes_f: list, solution_nodes_b:list, close
             i+=1
             j+=1
 
-    common_child_collisions = [array.array("q", item) for item in list(common_child_collisions)]
+    common_child_collisions = [array("q", item) for item in list(common_child_collisions)]
     return [common_child_collisions, list(nodes_adjacent_to_terminal)]
 
 # NOTE: this clause assumes that the goal state is checked for on expansion the node representing it
 def no_collision_clauses(common_child_collisions: list, nodes_adjacent_to_terminal: list):
     no_collision_clauses=[]
     for pair in common_child_collisions:
-        no_collision_clauses.append(array.array("q",[-1*node for node in pair]))
+        no_collision_clauses.append(array("q",[-1*node for node in pair]))
     for node in nodes_adjacent_to_terminal:
-        no_collision_clauses.append(array.array("q",[-1*node]))
+        no_collision_clauses.append(array("q",[-1*node]))
     return [None, no_collision_clauses]
 
 def at_least_one_collision_clauses(common_child_collisions: list, nodes_adjacent_to_terminal:list , avaliable_variable:int):
@@ -45,11 +45,11 @@ def at_least_one_collision_clauses(common_child_collisions: list, nodes_adjacent
     for pair in common_child_collisions:
         possible_collisions.append(avaliable_variable)
         #c->(a ^ b) where (a,b) is a collision pair
-        at_least_one_collision_clauses.append(array.array("q",[-1*avaliable_variable, pair[0]]))
-        at_least_one_collision_clauses.append(array.array("q",[-1*avaliable_variable, pair[1]]))
+        at_least_one_collision_clauses.append(array("q",[-1*avaliable_variable, pair[0]]))
+        at_least_one_collision_clauses.append(array("q",[-1*avaliable_variable, pair[1]]))
         avaliable_variable+=1
 
     possible_collisions.extend(nodes_adjacent_to_terminal)
-    at_least_one_collision_clauses.append(array.array("q",possible_collisions))
+    at_least_one_collision_clauses.append(array("q",possible_collisions))
     return avaliable_variable , [None, at_least_one_collision_clauses]
 

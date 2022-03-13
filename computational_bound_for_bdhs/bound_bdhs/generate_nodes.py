@@ -41,4 +41,4 @@ def search(domain, heuristic, problem: str, search_results_path: str):
         serialize([max_node_id, epsilon_global, iota_global, solution_nodes_f, solution_nodes_b, closed_list_f, closed_list_b ], search_results_path)
         
         return solution_length, solution_cost, max_node_id
-    return None, None
+    return None, None, None
