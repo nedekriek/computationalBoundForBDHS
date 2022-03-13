@@ -1,4 +1,4 @@
-import array
+from array import array
 
 from pysat.formula import WCNF
 from pysat.examples.rc2 import RC2
@@ -14,10 +14,10 @@ def solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight):
         
         if soft_clause_weight == 1:
             for clause in soft_clauses:
-                rc2.add_clause(array.array("q",[clause]), weight=1)
+                rc2.add_clause(array("q",[clause]), weight=1)
         elif soft_clause_weight ==-1:
             for clause in soft_clauses:
-                rc2.add_clause(array.array("q",[-1*clause]), weight=1)
+                rc2.add_clause(array("q",[-1*clause]), weight=1)
 
         model=rc2.compute()
 
