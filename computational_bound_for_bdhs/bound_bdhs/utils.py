@@ -16,14 +16,14 @@ def deserialize(file_path):
         filehandler.close()
         return data
 
-def initialiseFile(file_path, overwrite: bool):
+def initialiseFile(file_path):
     """helper function that ensures a suitable file exists"""
     try:
-        if overwrite:
-            f = open(file_path, "w")
-        else:
-            f = open(file_path, "r")
-            raise Exception("The {file} already exists and no premission has been given to overwrite.".format(file=file_path))
+        #if overwrite: #TODO: remove
+        f = open(file_path, "w")
+        #else:
+            #f = open(file_path, "r")
+            #raise Exception("The {file} already exists and no premission has been given to overwrite.".format(file=file_path))
     except FileNotFoundError:
         file_path_parts = file_path.split('/')
         prefix=file_path_parts[:-1].join()

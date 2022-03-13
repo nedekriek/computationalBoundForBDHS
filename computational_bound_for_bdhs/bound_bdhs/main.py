@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 
 from .constants import run_protocol_definitions, search_pattern, output_headers
-from .utils import  initialiseFile, get_problems
+from .utils import get_problems
 
 from .generate_nodes import search
 from .generate_clauses import clause_generation

@@ -29,7 +29,7 @@ class Node:
     def __repr__(self):
         return "<Node {}>".format(self.state)
 
-    def __find_gcd_of_sequence(sequence):
+    def _find_gcd_of_sequence(self,sequence):
         x = reduce(gcd, sequence)
         return x
 
@@ -39,7 +39,7 @@ class Node:
 
         #the children must be generated to calculate epsilon
         self.epsilon=min(self.cost_of_out_going_actions)
-        self.iota=self.__find_gcd_of_sequence(self.cost_of_out_going_actions)
+        self.iota=self._find_gcd_of_sequence(self.cost_of_out_going_actions)
         return children
 
     def child_node(self, problem, action):
