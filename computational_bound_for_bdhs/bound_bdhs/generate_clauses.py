@@ -1,12 +1,11 @@
 from os.path import exists
 
-from .constants import clause_to_bound
+from .constants import bounds_to_clause
 from .utils import serialize, deserialize
-
 
 #clauses
 #from ..clause_generation_helper.bucket_clauses import buckets_clauses
-from ..clause_generation_helper.expand_clauses import must_expand_clauses
+from ..clause_generation_helper.expand_clauses import expand_clauses
 from ..clause_generation_helper.perantage_clauses import parentage_clauses
 from ..clause_generation_helper.colision_clauses import get_collision_locations, no_collision_clauses, at_least_one_collision_clauses
 from ..clause_generation_helper.g_limit_clauses import g_limit_clauses
@@ -27,7 +26,7 @@ def clause_generation(heuristic_function, bound: str, bound_type: str, locality:
         - no_collision_clauses
         - at_least_one_collision_clauses
     '''
-    required_clauses=clause_to_bound[bound]
+    required_clauses=bound_to_clause[bound]
 
     requires_recalculation=False  
 
@@ -54,7 +53,7 @@ def clause_generation(heuristic_function, bound: str, bound_type: str, locality:
         buckets_b = buckets(closed_list_b, epsilon_global, iota_global, global_info)
         must_expand_paired_buckets, might_expand_paired_buckets = visible_search_space(static_node_lower_bound_func, buckets_f, buckets_b, c_star)
 
-        must_expand_pairs, might_expand_pairs, not_must_expand_pair_clause = must_expand_clauses(dynamic_node_lower_bound_func, heuristic_function, must_expand_paired_buckets, might_expand_paired_buckets, buckets_f, buckets_b, bound_type,  c_star, epsilon_global, iota_global, global_info, avaliable_variable)
+        must_expand_pairs, might_expand_pairs, not_must_expand_pair_clause = expand_clauses(dynamic_node_lower_bound_func, heuristic_function, must_expand_paired_buckets, might_expand_paired_buckets, buckets_f, buckets_b, bound_type,  c_star, epsilon_global, iota_global, global_info, avaliable_variable)
         serialize(must_expand_pairs, bound_constraints_path_prefix+'must_expand_clauses/'+path_suffix)
         must_expand_pairs = []
         serialize(might_expand_pairs, bound_constraints_path_prefix+'might_expand_pairs/'+path_suffix)

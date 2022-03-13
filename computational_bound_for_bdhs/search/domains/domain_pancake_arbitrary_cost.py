@@ -1,6 +1,6 @@
-from .domain import Domains
+from .domain import Domain
 
-class Domain_pancake_arbitrary_cost(Domains):
+class Domain_pancake_arbitrary_cost(Domain):
 
     def __init__(self, initial, goal):
         self.cost_of_actions_used_for_expansion=set()
