@@ -1,5 +1,3 @@
-import sys 
-sys.path.append("..") 
 from os.path import exists
 
 from .constants import clause_to_bound
