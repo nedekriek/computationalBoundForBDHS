@@ -37,6 +37,7 @@ def sat(collision_below_c_star: bool, max_node_id: int, bound: str, bound_type :
         bound_clauses = bound_clauses.copy()
         if collision_below_c_star:
             bound_clauses.remove('no_collision_clauses')
+            bound_clauses.remove('might_expand_clauses')
         else:
             bound_clauses.remove('not_must_expand_pair_clause')
 
