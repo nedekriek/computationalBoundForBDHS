@@ -1,4 +1,7 @@
 def gap_unit_cost(node, goal_state):
+    if type(goal_state) is not tuple:
+        goal_state=goal_state.state
+
     state=node.state
     heuristic_value=0
 
@@ -19,6 +22,7 @@ def gap_unit_cost(node, goal_state):
     return heuristic_value
 
 def gap_arbitrary_cost_helper(state_1, state_2):
+    heuristic_value=0
     for i in range(0,len(state_1)-1):
         goal_position_i=state_2.index(state_1[i])
 
@@ -38,5 +42,7 @@ def gap_arbitrary_cost_helper(state_1, state_2):
 
 
 def gap_arbitrary_cost(node, goal_state):
+    if type(goal_state) is not tuple:
+        goal_state=goal_state.state
     state=node.state
     return max(gap_arbitrary_cost_helper(state, goal_state),gap_arbitrary_cost_helper(goal_state,state))

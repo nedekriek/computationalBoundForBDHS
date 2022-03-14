@@ -8,32 +8,40 @@ from .utils import serialize, deserialize
 
 
 def solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight):
-        rc2=RC2(WCNF())
-        for clause in hard_clauses:
-            rc2.add_clause(clause)
-        
-        if soft_clause_weight == 1:
-            for clause in soft_clauses:
-                rc2.add_clause(array("q",[clause]), weight=1)
-        elif soft_clause_weight ==-1:
-            for clause in soft_clauses:
-                rc2.add_clause(array("q",[-1*clause]), weight=1)
+    if soft_clauses == [] and hard_clauses == []:
+        return None
 
-        model=rc2.compute()
+    rc2=RC2(WCNF())
+    for clause in hard_clauses:
+        rc2.add_clause(clause)
+    
+    if soft_clause_weight == 1:
+        for clause in soft_clauses:
+            rc2.add_clause(array("q",[clause]), weight=1)
+    elif soft_clause_weight ==-1:
+        for clause in soft_clauses:
+            rc2.add_clause(array("q",[-1*clause]), weight=1)
 
-        
-        return model
+    model=rc2.compute()
+
+    
+    return model
 
 def sat(collision_below_c_star: bool, max_node_id: int, bound: str, bound_type :str, sat_path: str, path_suffix: str, bound_constraints_path_prefix: str):
+    number_of_nodes_set_to_true=0
+    number_of_must_expand_nodes_set_to_true=0
+    
     soft_clause_weight = soft_clause_weight_by_bound_type[bound]
     bound_clauses = bounds_to_clause[bound]
-    if bound in ('ub_nx', 'ub_nx_with_g_limits'):
+    if bound in ('ub', 'ub_g_limits'):
+        bound_clauses = bound_clauses.copy()
         if collision_below_c_star:
             bound_clauses.remove('no_collision_clauses')
         else:
             bound_clauses.remove('not_must_expand_pair_clause')
 
-    must_expand_pair_nodes, _ =set(deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix))
+    must_expand_pair_nodes, _ =deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix)
+    must_expand_pair_nodes = set(must_expand_pair_nodes)
 
     soft_clauses = []
     hard_clauses = []
@@ -41,11 +49,15 @@ def sat(collision_below_c_star: bool, max_node_id: int, bound: str, bound_type :
     for clause_set in bound_clauses:
         soft, hard = deserialize(bound_constraints_path_prefix+clause_set+path_suffix)
         if soft:
-            soft_clauses.append(soft)
+            soft_clauses.extend(list(soft))
         if hard:
-            hard_clauses.append(hard)
+            hard_clauses.extend(hard) ###????
 
     sat_model = solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight)
+
+    if sat_model == None:
+        serialize(sat_model, sat_path + path_suffix) 
+        return 0, 0 
 
     number_of_nodes_set_to_true=0
     number_of_must_expand_nodes_set_to_true=0
@@ -56,9 +68,8 @@ def sat(collision_below_c_star: bool, max_node_id: int, bound: str, bound_type :
         if literal in must_expand_pair_nodes:            
             number_of_must_expand_nodes_set_to_true+=1
 
-    serialize(sat_model, sat_path)    
+    serialize(sat_model, sat_path + path_suffix)    
 
     return number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true
 
         
-    

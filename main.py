@@ -10,8 +10,8 @@ from computational_bound_for_bdhs.bound_bdhs.generate_sat_solution import sat
 
 # Manual Settings - None if you want everything to run
 domain_category = ['pancake']
-domain_types=['unit']
-run_protocol = [0,1,2,3]
+domain_types=['unit', 'arbitrary']
+run_protocol = [0,1,2,3,4,5,6,7]
 run_search, run_constraints, run_sat = True, True, True  #Intended options: [[True, True, True],[False, True, True],[False, False, True]]
 
 # pancake should always run before eight puzzle as it is quicker
@@ -24,7 +24,7 @@ for domain_category in domain_categories:
         problem_set, domain, heuristic = search_pattern[domain_category][domain_type]
         problem_set = get_problems(problem_set)
 
-        paths = ['results/'+domain.__name__+'/search' if run_search else None,
+        paths = ['results/'+domain.__name__+'/search' if run_search else None,  #if not exists(search_results_path):
                  'results/'+domain.__name__+'/constraints' if run_constraints else None,
                  'results/'+domain.__name__+'/sat' if run_sat else None,
                  'results/'+domain.__name__+'/']
@@ -46,12 +46,18 @@ for domain_category in domain_categories:
             solution_cost = '-'
             collision_below_c_star = '-'
             max_node_id = '-'
-            avaliable_variable = '-'
+            available_variable = '-'
             number_of_nodes_set_to_true = '-'
             number_of_must_expand_nodes_set_to_true = '-'
 
             if run_search:
                 solution_length, solution_cost, max_node_id = search(domain, heuristic, problem, search_results_path)
+                with open(paths[0]+"/"+problem+".txt","w") as f:
+                    f.write("{},{},{}".format(solution_length, solution_cost, max_node_id))
+            else:
+                with open(paths[0]+"/"+problem+".txt","r") as f:
+                    line = f.readline()
+                    solution_length, solution_cost, max_node_id = [int(item) for item in line.split(',')]
             
             for protocol in run_protocol:
                 bound_type, bound, locality = protocol
@@ -59,10 +65,16 @@ for domain_category in domain_categories:
 
                 if run_constraints:
                     # WARNING IF ONE CLAUSE NEEDS RECUCLATING ALL NEED TO BE RECALCULATED AS THE CONSISTENCY OF VARIABLE NUMBERING MUST BE MAINTAINED
-                    avaliable_variable, collision_below_c_star = clause_generation(heuristic, bound, bound_type, locality, problem, bound_constraints_path_prefix, path_suffix, search_results_path)
-
+                    available_variable, collision_below_c_star = clause_generation(heuristic, bound, bound_type, locality, problem, bound_constraints_path_prefix, path_suffix, search_results_path)
+                    with open(bound_constraints_path_prefix+problem+".txt","w") as f:
+                        f.write("{},{}".format(available_variable, collision_below_c_star))
+                else:
+                    with open(bound_constraints_path_prefix+problem+".txt","r") as f:
+                        line = f.readline()
+                        available_variable, collision_below_c_star = [int(item) for item in line.split(',')]   
+                    
                 if run_sat:
-                   sat_path = paths[2]+'/'+bound+'/'+bound_type+'/'+locality+'/'
+                   sat_path = paths[2]+'/'+bound+'/'+bound_type+'/'+locality
 
                    number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true = sat(collision_below_c_star, max_node_id, bound, bound_type, sat_path, path_suffix, bound_constraints_path_prefix)
 
@@ -74,10 +86,10 @@ for domain_category in domain_categories:
                                  solution_cost,
                                  collision_below_c_star,
                                  max_node_id,
-                                 avaliable_variable,
+                                 available_variable,
                                  number_of_nodes_set_to_true,
                                  number_of_must_expand_nodes_set_to_true,
-                                 number_of_nodes_set_to_true +1 if not collision_below_c_star else number_of_nodes_set_to_true
+                                 number_of_nodes_set_to_true +1 if not collision_below_c_star and bound in ('ub', 'ub_g_limits') else number_of_nodes_set_to_true
                                  ]
                                  )
         csv_file.close()

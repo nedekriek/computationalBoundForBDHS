@@ -17,7 +17,7 @@ def bucket_alias_identity(nodes_in_bucket, alias: int):
     return clauses
 
 """WARNING: dependance on might_expand_paired_buckets and  must_expand_paired_buckets being correctly constructed by the visible_search_space function in the utils modual."""
-def buckets_clauses(might_expand_paired_buckets: list, must_expand_paired_buckets: list, buckets_f:dict, buckets_b:dict, avaliable_variable:int):
+def buckets_clauses(might_expand_paired_buckets: list, must_expand_paired_buckets: list, buckets_f:dict, buckets_b:dict, available_variable:int):
     soft_clause=set()
     alias_clauses=[]
     bucket_not_expanded_clause=[]
@@ -26,14 +26,14 @@ def buckets_clauses(might_expand_paired_buckets: list, must_expand_paired_bucket
     bucket_aliases_b=[]
     
     for forward_bucket, backward_bucket in chain(might_expand_paired_buckets, must_expand_paired_buckets):
-        forward_alias=avaliable_variable
-        backward_alias=avaliable_variable+1
+        forward_alias=available_variable
+        backward_alias=available_variable+1
         
         bucket_aliases_f.append((forward_bucket,forward_alias))
         bucket_aliases_b.append((backward_bucket,backward_alias))
 
-        bucket_not_expanded_alias=avaliable_variable+2
-        avaliable_variable+=3
+        bucket_not_expanded_alias=available_variable+2
+        available_variable+=3
         
         for node in chain(buckets_f[forward_bucket], buckets_b[backward_bucket]):
             soft_clause.add(node.id)
@@ -44,4 +44,4 @@ def buckets_clauses(might_expand_paired_buckets: list, must_expand_paired_bucket
         alias_clauses.append(array("q", [-1*bucket_not_expanded_alias, -1*backward_alias]))
         bucket_not_expanded_clause.append(bucket_not_expanded_alias)
 
-    return bucket_aliases_f, bucket_aliases_b, avaliable_variable, [soft_clause, alias_clauses + [array("q", bucket_not_expanded_clause)]]
+    return bucket_aliases_f, bucket_aliases_b, available_variable, [soft_clause, alias_clauses + [array("q", bucket_not_expanded_clause)]]

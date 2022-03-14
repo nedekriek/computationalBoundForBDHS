@@ -21,17 +21,20 @@ def initialiseFile(file_path):
     try:
         #if overwrite: #TODO: remove
         f = open(file_path, "w")
+        f.close()
         #else:
             #f = open(file_path, "r")
+            #f.close()
             #raise Exception("The {file} already exists and no premission has been given to overwrite.".format(file=file_path))
     except FileNotFoundError:
         file_path_parts = file_path.split('/')
-        prefix=file_path_parts[:-1].join()
+        prefix= "/".join(file_path_parts[:-1])
         if not isdir(prefix):
             makedirs(prefix)
         f = open(file_path, "x")
-    finally:
         f.close()
+
+        
 
 def get_problems(problem_list):
     """helper function reading in cases by giving case names in the form initial_goal"""

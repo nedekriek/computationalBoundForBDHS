@@ -28,7 +28,7 @@ def dynamic_front_to_end_lb(node_f, node_b, heuristic_function, epsilon_global: 
                iota * ceil(((node_f.b + node_b.b)/2)/ iota))
 
 def dynamic_front_to_front_lb(node_f, node_b, heuristic_function, epsilon_global: int, iota_global: int, global_info:bool):
-    return  node_f.g + node_b.g + heuristic_function(node_f.id, node_b.id)
+    return  node_f.g + node_b.g + heuristic_function(node_f, node_b)
 
 def get_node_values(node, epsilon_global: int, iota_global: int, global_info:bool):
     return (node.g, 
@@ -64,7 +64,7 @@ def visible_search_space(node_lower_bound_func, buckets_f:dict, buckets_b:dict, 
     
     return must_expand_paired_buckets, might_expand_paired_buckets
 
-def solution_is_below_c_star(dynamic_node_lower_bound_func, solution_nodes_f: list, closed_list_b: dict, c_star:int, epsilon_global:int, iota_global:int, global_info: bool):
+def solution_is_below_c_star(dynamic_node_lower_bound_func, heuristic_function, solution_nodes_f: list, closed_list_b: dict, c_star:int, epsilon_global:int, iota_global:int, global_info: bool):
         #get all paths
         paths_f=[]                               
         for node in solution_nodes_f:
@@ -80,7 +80,7 @@ def solution_is_below_c_star(dynamic_node_lower_bound_func, solution_nodes_f: li
                 counter_example = False
                 for backward_index in range(index_f+1, path_len):
                     node_b=closed_list_b[path[backward_index].state]
-                    lb=dynamic_node_lower_bound_func(node_f, node_b, )
+                    lb=dynamic_node_lower_bound_func(node_f, node_b, heuristic_function, epsilon_global, iota_global, global_info) 
                     if lb >= c_star:
                         counter_example = True
                         break 
