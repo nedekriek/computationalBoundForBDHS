@@ -7,7 +7,7 @@ from .utils import serialize, deserialize
 #from ..clause_generation_helper.bucket_clauses import buckets_clauses
 from ..clause_generation_helper.expand_clauses import expand_clauses
 from ..clause_generation_helper.perantage_clauses import parentage_clauses
-from ..clause_generation_helper.colision_clauses import get_collision_locations, no_collision_clauses, at_least_one_collision_clauses
+from ..clause_generation_helper.collision_clauses import get_collision_locations, no_collision_clauses, at_least_one_collision_clauses
 from ..clause_generation_helper.g_limit_clauses import g_limit_clauses
 
 #clause utils
@@ -26,7 +26,7 @@ def clause_generation(heuristic_function, bound: str, bound_type: str, locality:
         - no_collision_clauses
         - at_least_one_collision_clauses
     '''
-    required_clauses=bounds_to_clause[bound]
+    # required_clauses=bounds_to_clause[bound]
 
     # requires_recalculation=False  
 

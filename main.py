@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from tqdm import tqdm
 
 from computational_bound_for_bdhs.bound_bdhs.constants import run_protocol_definitions, search_pattern, output_headers
 from computational_bound_for_bdhs.bound_bdhs.utils import get_problems
@@ -10,13 +11,13 @@ from computational_bound_for_bdhs.bound_bdhs.generate_sat_solution import sat
 
 # Manual Settings - None if you want everything to run
 domain_category = ['pancake']
-domain_types=['unit', 'arbitrary']
-run_protocol = [0,1,2,3,4,5,6,7]
+domain_types=['arbitrary']
+run_protocol = [3]
 run_search, run_constraints, run_sat = True, True, True  #Intended options: [[True, True, True],[False, True, True],[False, False, True]]
 
 # pancake should always run before eight puzzle as it is quicker
 domain_categories = ['pancake', 'eight_puzzle'] if domain_category == [] else domain_category
-domain_types = ['unit', 'arbitrary'] if domain_category == [] else domain_types
+domain_types = ['unit', 'arbitrary'] if domain_types == [] else domain_types
 run_protocol = run_protocol_definitions if run_protocol == [] else [run_protocol_definitions[i] for i in run_protocol]
 
 for domain_category in domain_categories: 
@@ -35,7 +36,7 @@ for domain_category in domain_categories:
         writer.writerow(output_headers)
 
 
-        for problem in problem_set:
+        for problem in tqdm(problem_set):
             path_suffix="/"+problem+".obj"
             search_results_path=paths[0]+path_suffix
 
@@ -79,6 +80,7 @@ for domain_category in domain_categories:
                    number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true = sat(collision_below_c_star, max_node_id, bound, bound_type, sat_path, path_suffix, bound_constraints_path_prefix)
 
                 writer.writerow([problem,
+                                 domain_type,
                                  bound,
                                  bound_type,
                                  locality,            
@@ -89,7 +91,7 @@ for domain_category in domain_categories:
                                  available_variable,
                                  number_of_nodes_set_to_true,
                                  number_of_must_expand_nodes_set_to_true,
-                                 number_of_nodes_set_to_true +1 if not collision_below_c_star and bound in ('ub', 'ub_g_limits') else number_of_nodes_set_to_true
+                                 number_of_nodes_set_to_true +1 if bound in ('ub', 'ub_g_limits') else number_of_nodes_set_to_true
                                  ]
                                  )
         csv_file.close()

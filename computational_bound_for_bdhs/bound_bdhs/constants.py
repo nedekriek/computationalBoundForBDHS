@@ -60,6 +60,7 @@ soft_clause_weight_by_bound_type={'vc':-1,
                                   'ub_g_limits':1}
 
 output_headers = ['problem',
+                  'domain_type',
                   'bound',
                   'bound_type',
                   'locality',            
