@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+import functools
 
 from .constants import run_protocol_definitions, search_pattern, output_headers
 from .utils import get_problems
@@ -21,7 +22,7 @@ run_protocol = run_protocol_definitions if run_protocol == [] else [run_protocol
 
 for domain_category in domain_categories: 
     for domain_type in domain_types:
-        problem_set, domain, heuristic = search_pattern[domain_category][domain_type]
+        problem_set, domain, base_heuristic = search_pattern[domain_category][domain_type]
         problem_set = get_problems(problem_set)
 
         paths = ['results/'+domain.__name__+'/search' if run_search else None,
@@ -35,6 +36,12 @@ for domain_category in domain_categories:
 
 
         for problem in problem_set:
+            # Possibly iterate through degradations here ^^
+            # Set the heuristic degradation
+            # Using functools.partial allows us to avoid modifying heuristic usage throughout rest of code
+            degradation = NotImplemented
+            heuristic = functools.partial(base_heuristic, degradation=degradation)
+
             path_suffix="/"+problem+".obj"
             search_results_path=paths[0]+path_suffix
 
