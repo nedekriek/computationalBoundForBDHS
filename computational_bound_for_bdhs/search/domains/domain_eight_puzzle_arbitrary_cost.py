@@ -2,7 +2,8 @@ from .domain import Domain
 
 class Domain_eight_puzzle_arbitrary_cost(Domain):
     def __init__(self, initial, goal):
-        self.cost_of_actions_used_for_expansion=set()
+        self.epsilon_global = 1
+        self.iota_global = 1
         initial=tuple((int(loc) %3,int(loc)//3) for loc in initial)
         goal=tuple((int(loc) %3,int(loc)//3) for loc in goal)
         super().__init__(initial, goal)
@@ -39,7 +40,6 @@ class Domain_eight_puzzle_arbitrary_cost(Domain):
     def path_cost(self, c, state1, action, state2):
         new_position_of_blank_postion=state2[0]
         swapped_tile = state1.index(new_position_of_blank_postion)
-        self.cost_of_actions_used_for_expansion.add(swapped_tile)
         return c+swapped_tile
 
     

@@ -3,7 +3,8 @@ from .domain import Domain
 class Domain_pancake_unit_cost(Domain):
 
     def __init__(self, initial, goal): 
-        self.cost_of_actions_used_for_expansion=[1]     #iota and epsilon must be 1
+        self.epsilon_global = 1
+        self.iota_global = 1
         initial=tuple([int(i) for i in initial])
         goal=tuple([int(i) for i in goal])
         super().__init__(initial, goal)     #assumes the goal state is [1,2,3,...,n]

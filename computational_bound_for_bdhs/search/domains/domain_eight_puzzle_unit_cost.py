@@ -3,7 +3,8 @@ from .domain import Domain
 class Domain_eight_puzzle_unit_cost(Domain):
 
     def __init__(self, initial, goal):
-        self.cost_of_actions_used_for_expansion=[1]     #iota and epsilon must be 1
+        self.epsilon_global = 1
+        self.iota_global = 1
         initial=tuple((int(loc) %3,int(loc)//3) for loc in initial)
         goal=tuple((int(loc) %3,int(loc)//3) for loc in goal)
         super().__init__(initial, goal)

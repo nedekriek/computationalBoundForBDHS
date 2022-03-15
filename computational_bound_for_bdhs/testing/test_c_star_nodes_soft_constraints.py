@@ -18,7 +18,7 @@ class Test_constraints(unittest.TestCase):
         self.experiment_2=Experiment("unitTest", Domain_eight_puzzle_unit_cost, None, None, "unitTests/test.txt")
         self.experiment_2.max_node_id=12
         self.experiment_2.epsilon_global=1
-        self.experiment_2.global_iota=1
+        self.experiment_2.iota_global=1
 
         parent_action_pairs_forward_2=[("a", (None, None)), ("b", ("a", "A")), ("c", ("a", "B")), ("d", ("c", "C")), ("e", ("d", "E"))] 
         parent_action_pairs_backward_2=[("e", (None, None)), ("f", ("e", "E")), ("d", ("e", "D")), ("c", ("d", "C")), ("a", ("c", "B"))]
@@ -70,7 +70,7 @@ class Test_constraints(unittest.TestCase):
         self.experiment_3=Experiment("unitTest", Domain_eight_puzzle_unit_cost, None, None, "unitTests/test.txt")
         self.experiment_3.max_node_id=12
         self.experiment_3.epsilon_global=1
-        self.experiment_3.global_iota=1
+        self.experiment_3.iota_global=1
 
         for state, parent_action_pairs in parent_action_pairs_forward_3:
             parent, action = parent_action_pairs

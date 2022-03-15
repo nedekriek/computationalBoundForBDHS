@@ -3,7 +3,8 @@ from .domain import Domain
 class Domain_pancake_arbitrary_cost(Domain):
 
     def __init__(self, initial, goal):
-        self.cost_of_actions_used_for_expansion=set()
+        self.epsilon_global = 1
+        self.iota_global = 1
         initial=tuple([int(i) for i in initial])
         goal=tuple([int(i) for i in goal])
         super().__init__(initial, goal)     #assumes the goal state is [1,2,3,...,n]
@@ -25,5 +26,4 @@ class Domain_pancake_arbitrary_cost(Domain):
             cost=action+1
         else:           
             cost=state1[action]
-        self.cost_of_actions_used_for_expansion.add(cost)
         return c+cost

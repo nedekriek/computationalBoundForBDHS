@@ -48,4 +48,7 @@ def expand_clauses(lb, heuristic_function, must_expand_paired_buckets: list, mig
     #might expand set minus must expand
     might_expand_soft_clause -= must_expand_soft_clause
 
-    return [must_expand_soft_clause, must_expand_hard_clauses], [might_expand_soft_clause, None], [None, not_must_expand_pair_aliases + [array("q", not_must_expand_pair_clause)]]
+    if not_must_expand_pair_aliases:
+        not_must_expand_pair_aliases += [array("q", not_must_expand_pair_clause)]
+    
+    return [must_expand_soft_clause, must_expand_hard_clauses], [might_expand_soft_clause, None], [None,not_must_expand_pair_aliases]

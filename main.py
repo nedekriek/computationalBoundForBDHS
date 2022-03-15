@@ -12,7 +12,7 @@ from computational_bound_for_bdhs.bound_bdhs.generate_sat_solution import sat
 # Manual Settings - None if you want everything to run
 domain_category = ['pancake']
 domain_types=['arbitrary']
-run_protocol = [3]
+run_protocol = list(range(0,len(run_protocol_definitions)))
 run_search, run_constraints, run_sat = True, True, True  #Intended options: [[True, True, True],[False, True, True],[False, False, True]]
 
 # pancake should always run before eight puzzle as it is quicker
@@ -75,9 +75,9 @@ for domain_category in domain_categories:
                         available_variable, collision_below_c_star = [int(item) for item in line.split(',')]   
                     
                 if run_sat:
-                   sat_path = paths[2]+'/'+bound+'/'+bound_type+'/'+locality
+                    sat_path = paths[2]+'/'+bound+'/'+bound_type+'/'+locality
 
-                   number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true = sat(collision_below_c_star, max_node_id, bound, bound_type, sat_path, path_suffix, bound_constraints_path_prefix)
+                    number_of_nodes_set_to_true, number_of_must_expand_nodes_set_to_true = sat(collision_below_c_star, max_node_id, bound, bound_type, sat_path, path_suffix, bound_constraints_path_prefix)
 
                 writer.writerow([problem,
                                  domain_type,
@@ -91,7 +91,7 @@ for domain_category in domain_categories:
                                  available_variable,
                                  number_of_nodes_set_to_true,
                                  number_of_must_expand_nodes_set_to_true,
-                                 number_of_nodes_set_to_true +1 if bound in ('ub', 'ub_g_limits') else number_of_nodes_set_to_true
+                                 number_of_nodes_set_to_true +1 if bound in ('ub', 'ub_g_limits') and number_of_nodes_set_to_true is not None else number_of_nodes_set_to_true
                                  ]
                                  )
         csv_file.close()
