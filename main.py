@@ -30,7 +30,7 @@ for domain_category in domain_categories:
         paths = ['results/'+domain.__name__+'/search/d'+str(degradation) if run_search else None,  #
                  'results/'+domain.__name__+'/constraints/d'+str(degradation) if run_constraints else None,
                  'results/'+domain.__name__+'/sat/d'+str(degradation) if run_sat else None,
-                 'results/'+domain.__name__+'/d'+str(degradation)]
+                 'results/'+domain.__name__+'/d'+str(degradation)+'/']
 
         version = datetime.now().strftime('date_%d_%m_%y_time_%H_%M')
         csv_file = open(paths[3]+'results_'+version+'.csv', "w")
