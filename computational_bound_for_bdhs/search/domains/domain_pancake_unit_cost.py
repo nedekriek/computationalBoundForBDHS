@@ -4,13 +4,13 @@ class Domain_pancake_unit_cost(Domain):
 
     def __init__(self, initial, goal): 
         self.cost_of_actions_used_for_expansion=[1]     #iota and epsilon must be 1
-        initial=tuple([int(i) for i in initial])
-        goal=tuple([int(i) for i in goal])
+        initial=tuple([int(i) for i in initial]+[len(initial)+1]) # [len(initial)+1] adds the table to the state
+        goal=tuple([int(i) for i in goal]+[len(initial)+1])
         super().__init__(initial, goal)     #assumes the goal state is [1,2,3,...,n]
 
     def actions(self, state):
         """Returns the index of the pancake that is under the flipper. This pancake will not be flipped."""
-        possible_actions=[pancake_under_flipper for pancake_under_flipper in range(2,len(state)+1)]
+        possible_actions=[pancake_under_flipper for pancake_under_flipper in range(2,len(state))]
         return possible_actions
 
     def result(self, state, action):
