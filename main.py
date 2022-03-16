@@ -12,7 +12,7 @@ from computational_bound_for_bdhs.bound_bdhs.generate_sat_solution import sat
 # Manual Settings - None if you want everything to run
 domain_category = ['pancake']
 domain_types= []
-run_protocol = []
+run_protocol = [2,3,6,7]
 run_search, run_constraints, run_sat = True, True, True  #Intended options: [[True, True, True],[False, True, True],[False, False, True]]
 
 # pancake should always run before eight puzzle as it is quicker
@@ -20,15 +20,17 @@ domain_categories = ['pancake', 'eight_puzzle'] if domain_category == [] else do
 domain_types = ['unit', 'arbitrary'] if domain_types == [] else domain_types
 run_protocol = run_protocol_definitions if run_protocol == [] else [run_protocol_definitions[i] for i in run_protocol]
 
+degradation=0
+
 for domain_category in domain_categories: 
     for domain_type in domain_types:
         problem_set, domain, heuristic = search_pattern[domain_category][domain_type]
         problem_set = get_problems(problem_set)
 
-        paths = ['results/'+domain.__name__+'/search' if run_search else None,  #if not exists(search_results_path):
-                 'results/'+domain.__name__+'/constraints' if run_constraints else None,
-                 'results/'+domain.__name__+'/sat' if run_sat else None,
-                 'results/'+domain.__name__+'/']
+        paths = ['results/'+domain.__name__+'/search/degradation'+str(degradation) if run_search else None,  #
+                 'results/'+domain.__name__+'/constraints/degradation'+str(degradation) if run_constraints else None,
+                 'results/'+domain.__name__+'/sat/degradation'+str(degradation) if run_sat else None,
+                 'results/'+domain.__name__+'/degradation'+str(degradation)]
 
         version = datetime.now().strftime('date_%d_%m_%y_time_%H_%M')
         csv_file = open(paths[3]+'results_'+version+'.csv', "w")
@@ -53,10 +55,10 @@ for domain_category in domain_categories:
 
             if run_search:
                 solution_length, solution_cost, max_node_id = search(domain, heuristic, problem, search_results_path)
-                with open(paths[0]+"/"+problem+".txt","w") as f:
+                with open(search_results_path,"w") as f:
                     f.write("{},{},{}".format(solution_length, solution_cost, max_node_id))
             else:
-                with open(paths[0]+"/"+problem+".txt","r") as f:
+                with open(search_results_path,"r") as f:
                     line = f.readline()
                     solution_length, solution_cost, max_node_id = [int(item) for item in line.split(',')]
             
