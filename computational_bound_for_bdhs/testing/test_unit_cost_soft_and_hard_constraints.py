@@ -3,7 +3,7 @@ from array import array
 import sys
 sys.path.append("..")
 
-from ..search.domains.domain_eight_puzzle_unit_cost import Domain_eight_puzzle_unit_cost
+from ..search.domains.Eight_puzzle_unit import Eight_puzzle_unit
 from ..search.unidirectional_search.node import Node
 from aStar.experiments import Experiment
 
@@ -71,7 +71,7 @@ class Test_constraints(unittest.TestCase):
         self.experiment=Experiment("unitTest", problemEightPuzzleUnitCost, None, None, "unitTests/test.txt")
         self.experiment.max_node_id=20
         self.experiment.epsilon_global=1
-        self.experiment.global_iota=1
+        self.experiment.iota_global=1
 
     def test_must_expand_pairs(self):
         soft_constraints, hard_constraints = self.experiment.must_expand_pairs(self.solution_nodes_forward_1, self.solution_nodes_backward_1, self.closed_list_forward_1, self.closed_list_backward_1)

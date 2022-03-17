@@ -2,14 +2,15 @@ from functools import reduce
 from math import ceil, gcd
 
 def static_front_to_end_lb(node_values_f, node_values_b):
-    g_value_f, f_value_f , d_value_f , b_value_f , epsilon_f , iota_f =  node_values_f
-    g_value_b, f_value_b , d_value_b , b_value_b , epsilon_b , iota_b =  node_values_b
+    g_value_f, h_value_f , d_value_f , b_value_f , epsilon_f , iota_f =  node_values_f
+    g_value_b, h_value_b , d_value_b , b_value_b , epsilon_b , iota_b =  node_values_b
     
     iota=reduce(gcd, [iota_f, iota_b])
-    
-    return max(g_value_f + g_value_b + min(epsilon_f, epsilon_b),
-               f_value_f + d_value_b, 
-               f_value_b + d_value_f,
+    epsilon=min(epsilon_f, epsilon_b)
+
+    return max(g_value_f + g_value_b + epsilon,
+               g_value_f + max(epsilon, h_value_f + d_value_b), 
+               g_value_b + max(epsilon, h_value_b + d_value_f),
                iota * ceil(((b_value_f + b_value_b)/2)/ iota))
 
 def static_front_to_front_lb(node_values_f, node_values_b):
@@ -23,16 +24,18 @@ def dynamic_front_to_end_lb(node_f, node_b, heuristic_function, epsilon_global: 
     iota = iota_global if global_info else gcd(node_f.iota, node_b.iota)
     
     return max(node_f.g + node_b.g + epsilon,
-               node_f.f+ node_b.d, 
-               node_b.f + node_f.d,
+               node_f.g + max(epsilon, node_f.h + node_b.d), 
+               node_b.g + max(epsilon, node_b.h + node_f.d),
                iota * ceil(((node_f.b + node_b.b)/2)/ iota))
 
 def dynamic_front_to_front_lb(node_f, node_b, heuristic_function, epsilon_global: int, iota_global: int, global_info:bool):
-    return  node_f.g + node_b.g + heuristic_function(node_f, node_b)
+    epsilon = epsilon_global if global_info else min(node_f.epsilon, node_b.epsilon)
+    
+    return  node_f.g + node_b.g + max(epsilon, heuristic_function(node_f, node_b))
 
 def get_node_values(node, epsilon_global: int, iota_global: int, global_info:bool):
     return (node.g, 
-             node.f, 
+             node.h, 
              node.d, 
              node.b,
              node.epsilon if node.epsilon and not global_info else epsilon_global,

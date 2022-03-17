@@ -5,7 +5,7 @@ from os import makedirs
 def serialize(data, file_path):
     initialiseFile(file_path)
     if file_path.endswith(".obj"):
-        filehandler=open(file_path,"ab")
+        filehandler=open(file_path,"wb")
         pickle.dump(data, filehandler)
         filehandler.close()
     

@@ -2,13 +2,13 @@ import unittest
 import sys
 sys.path.append("..")
 
-from ..search.domains.domain_pancake_arbitrary_cost import Domain_pancake_arbitrary_cost
+from ..search.domains.Pancake_arbitrary import Pancake_arbitrary
 
 class Test_pancakes_arbitrary_cost_problem(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.problem=Domain_pancake_arbitrary_cost("123", "123")
+        self.problem=Pancake_arbitrary("123", "123")
 
     def test_representation(self):
         test_inputs_outputs=[("123 123", (1,2,3), (1,2,3)),
@@ -17,7 +17,7 @@ class Test_pancakes_arbitrary_cost_problem(unittest.TestCase):
 
         for inputs, expected_initial, expected_goal in test_inputs_outputs:
             inputs = inputs.split()
-            problem = Domain_pancake_arbitrary_cost(inputs[0],inputs[1])
+            problem = Pancake_arbitrary(inputs[0],inputs[1])
             self.assertTupleEqual(problem.initial, expected_initial)
             self.assertTupleEqual(problem.goal, expected_goal)
 

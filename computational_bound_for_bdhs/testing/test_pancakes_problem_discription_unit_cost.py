@@ -2,13 +2,13 @@ import unittest
 import sys
 sys.path.append("..")
 
-from ..search.domains.domain_pancake_unit_cost import Domain_pancake_unit_cost
+from ..search.domains.Pancake_unit import Pancake_unit
 
 class Test_pancakes_unit_cost_problem(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.problem=Domain_pancake_unit_cost("123", "123")
+        self.problem=Pancake_unit("123", "123")
 
     def test_representation(self):
         test_inputs_outputs=[("123 123", (1,2,3), (1,2,3)),
@@ -17,7 +17,7 @@ class Test_pancakes_unit_cost_problem(unittest.TestCase):
 
         for inputs, expected_initial, expected_goal in test_inputs_outputs:
             inputs = inputs.split()
-            problem = Domain_pancake_unit_cost(inputs[0],inputs[1])
+            problem = Pancake_unit(inputs[0],inputs[1])
             self.assertTupleEqual(problem.initial, expected_initial)
             self.assertTupleEqual(problem.goal, expected_goal)
         

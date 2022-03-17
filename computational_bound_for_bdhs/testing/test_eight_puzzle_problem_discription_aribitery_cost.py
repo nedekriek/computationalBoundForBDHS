@@ -1,5 +1,5 @@
 import unittest
-from ..search.domains.domain_eight_puzzle_arbitrary_cost import Domain_eight_puzzle_arbitrary_cost
+from ..search.domains.Eight_puzzle_arbitrary import Eight_puzzle_arbitrary
 
 class Test_eight_puzzle_arbitrary_cost_problem(unittest.TestCase):
     @classmethod
@@ -19,7 +19,7 @@ class Test_eight_puzzle_arbitrary_cost_problem(unittest.TestCase):
         self.g_values=[6,4,6,4,6,6,5,6,3,6,3]
 
         goal="801234567"
-        self.problem=Domain_eight_puzzle_arbitrary_cost(goal, goal)
+        self.problem=Eight_puzzle_arbitrary(goal, goal)
 
     def test_representation(self):
         initial_states=[((0,2),(0,0),(2,0),(2,1),(1,1),(1,0),(2,2),(0,1),(1,2)),
@@ -37,7 +37,7 @@ class Test_eight_puzzle_arbitrary_cost_problem(unittest.TestCase):
 
         for index, test_case in enumerate(self.test_cases):
             initial, goal = test_case.split("_")
-            problem = Domain_eight_puzzle_arbitrary_cost(initial, goal) 
+            problem = Eight_puzzle_arbitrary(initial, goal) 
             self.assertTupleEqual(problem.initial, initial_states[index], "Given initial state "+initial)
             self.assertTupleEqual(problem.goal, goal_state, "Given goal state "+goal)
 
