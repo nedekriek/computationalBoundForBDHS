@@ -44,21 +44,21 @@ def sat(collision_below_c_star: bool, max_node_id: int, bound: str, bound_type :
     must_expand_pair_nodes, _ =deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix)
     must_expand_pair_nodes = set(must_expand_pair_nodes)
 
-    soft_clauses = []
+    soft_clauses = must_expand_pair_nodes #we always want the might expand pair nodes
     hard_clauses = []
 
     for clause_set in bound_clauses:
         soft, hard = deserialize(bound_constraints_path_prefix+clause_set+path_suffix)
         if soft:
-            soft_clauses.extend(list(soft))
+            soft_clauses.update(soft)
         if hard:
             hard_clauses.extend(hard) ###????
 
-    sat_model = solve_sat_problem(soft_clauses, hard_clauses, soft_clause_weight)
+    sat_model = solve_sat_problem(list(soft_clauses), hard_clauses, soft_clause_weight)
 
     if sat_model == None:
         serialize(sat_model, sat_path + path_suffix) 
-        return 0, 0 
+        return None, None
 
     number_of_nodes_set_to_true=0
     number_of_must_expand_nodes_set_to_true=0

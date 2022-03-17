@@ -1,6 +1,6 @@
 import unittest
 
-from ..search.domains.domain_eight_puzzle_unit_cost import Domain_eight_puzzle_unit_cost
+from ..search.domains.Eight_puzzle_unit import Eight_puzzle_unit
 from ..search.unidirectional_search.node import Node
 
 from aStar.experiments import Experiment
@@ -15,10 +15,10 @@ class Test_constraints(unittest.TestCase):
         self.solution_nodes_forward_2=[]
         self.solution_nodes_backward_2=[]
     
-        self.experiment_2=Experiment("unitTest", Domain_eight_puzzle_unit_cost, None, None, "unitTests/test.txt")
+        self.experiment_2=Experiment("unitTest", Eight_puzzle_unit, None, None, "unitTests/test.txt")
         self.experiment_2.max_node_id=12
         self.experiment_2.epsilon_global=1
-        self.experiment_2.global_iota=1
+        self.experiment_2.iota_global=1
 
         parent_action_pairs_forward_2=[("a", (None, None)), ("b", ("a", "A")), ("c", ("a", "B")), ("d", ("c", "C")), ("e", ("d", "E"))] 
         parent_action_pairs_backward_2=[("e", (None, None)), ("f", ("e", "E")), ("d", ("e", "D")), ("c", ("d", "C")), ("a", ("c", "B"))]
@@ -67,10 +67,10 @@ class Test_constraints(unittest.TestCase):
         node_values_forward_3={"a":(0,3,3,0,3), "c":(2,2,4,1,5), "d":(4,1,5,2,7), "e":(6,0,6,3,9), "b":(1,5,6,0,6), "g":(3,2,5,2,7), "h": (5,1,6,2,8)}
         node_values_backward_3={"e":(0,3,3,0,3), "d":(2,1,3,1,4), "c":(4,1,5,1,6), "a":(6,0,6,2,8), "f":(1,5,6,0,6), "g":(5,1,6,2,8), "h":(3,1,4,2,6)}
     
-        self.experiment_3=Experiment("unitTest", Domain_eight_puzzle_unit_cost, None, None, "unitTests/test.txt")
+        self.experiment_3=Experiment("unitTest", Eight_puzzle_unit, None, None, "unitTests/test.txt")
         self.experiment_3.max_node_id=12
         self.experiment_3.epsilon_global=1
-        self.experiment_3.global_iota=1
+        self.experiment_3.iota_global=1
 
         for state, parent_action_pairs in parent_action_pairs_forward_3:
             parent, action = parent_action_pairs

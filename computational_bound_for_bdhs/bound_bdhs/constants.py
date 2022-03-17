@@ -1,11 +1,11 @@
 
-from ..search.domains import Domain_eight_puzzle_arbitrary_cost, Domain_eight_puzzle_unit_cost, Domain_pancake_arbitrary_cost, Domain_pancake_unit_cost
+from ..search.domains import Eight_puzzle_arbitrary, Eight_puzzle_unit, Pancake_arbitrary, Pancake_unit
 from ..search.heuristics import manhattan_arbitrary_cost, manhattan_unit_cost, gap_arbitrary_cost, gap_unit_cost
 
-search_pattern={'eight_puzzle': {'arbitrary': ['computational_bound_for_bdhs/search_problems/sliding_tile/experiment_set.txt', Domain_eight_puzzle_arbitrary_cost,  manhattan_arbitrary_cost ],
-                                 'unit': ['computational_bound_for_bdhs/search_problems/sliding_tile/experiment_set.txt',  Domain_eight_puzzle_unit_cost, manhattan_unit_cost]},
-                'pancake':{'arbitrary': ['computational_bound_for_bdhs/search_problems/pancake/experiment_set.txt', Domain_pancake_arbitrary_cost, gap_arbitrary_cost],
-                           'unit': ['computational_bound_for_bdhs/search_problems/pancake/experiment_set.txt', Domain_pancake_unit_cost, gap_unit_cost]}} 
+search_pattern={'eight_puzzle': {'arbitrary': ['computational_bound_for_bdhs/search_problems/sliding_tile/experiment_set.txt', Eight_puzzle_arbitrary,  manhattan_arbitrary_cost ],
+                                 'unit': ['computational_bound_for_bdhs/search_problems/sliding_tile/experiment_set.txt',  Eight_puzzle_unit, manhattan_unit_cost]},
+                'pancake':{'arbitrary': ['computational_bound_for_bdhs/search_problems/pancake/experiment_set.txt', Pancake_arbitrary, gap_arbitrary_cost],
+                           'unit': ['computational_bound_for_bdhs/search_problems/pancake/experiment_set.txt', Pancake_unit, gap_unit_cost]}} 
 
 run_protocol_definitions= [
                            ['front_to_end', 'vc', 'global'],           #front_to_end

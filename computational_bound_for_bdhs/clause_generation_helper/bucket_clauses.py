@@ -43,5 +43,7 @@ def buckets_clauses(might_expand_paired_buckets: list, must_expand_paired_bucket
         alias_clauses.append(array("q", [-1*bucket_not_expanded_alias, -1*forward_alias]))
         alias_clauses.append(array("q", [-1*bucket_not_expanded_alias, -1*backward_alias]))
         bucket_not_expanded_clause.append(bucket_not_expanded_alias)
-
-    return bucket_aliases_f, bucket_aliases_b, available_variable, [soft_clause, alias_clauses + [array("q", bucket_not_expanded_clause)]]
+    
+    if alias_clauses:
+        alias_clauses += [array("q", bucket_not_expanded_clause)]
+    return bucket_aliases_f, bucket_aliases_b, available_variable, [soft_clause, alias_clauses]
