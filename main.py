@@ -13,7 +13,7 @@ from computational_bound_for_bdhs.bound_bdhs.generate_sat_solution import sat
 # Manual Settings - None if you want everything to run
 domain_category = ['pancake']
 domain_types= []
-run_protocol = []
+run_protocol = [2,3,6,7]
 run_search, run_constraints, run_sat = True, True, True  #Intended options: [[True, True, True],[False, True, True],[False, False, True]]
 
 # pancake should always run before eight puzzle as it is quicker
