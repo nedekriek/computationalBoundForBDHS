@@ -11,7 +11,7 @@ from functools import reduce
 from ..clause_generation_helper.utils import get_node_values
 
 
-def search(domain, heuristic, problem: str, search_results_path: str):
+def search(domain, heuristic, problem: str, search_results_path: str, search_data_path: str):
     if not exists(search_results_path):
         initial_state, goal_state = problem.split("_")
 
@@ -43,7 +43,7 @@ def search(domain, heuristic, problem: str, search_results_path: str):
         serialize([max_node_id, epsilon_global, iota_global, solution_nodes_f, solution_nodes_b, closed_list_f, closed_list_b ], search_results_path)
         
     else:
-        with open(search_results_path,"r") as f:
+        with open(search_data_path,"r") as f:
             line = f.readline()
             solution_length, solution_cost, max_node_id = [int(item) for item in line.split(',')]
 

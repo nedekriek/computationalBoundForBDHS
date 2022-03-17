@@ -3,7 +3,7 @@ from array import array
 import sys
 sys.path.append("..")
 
-from ..search.domains.domain_eight_puzzle_unit_cost import Domain_eight_puzzle_unit_cost
+from ..search.domains.Eight_puzzle_unit import Eight_puzzle_unit
 from ..search.unidirectional_search.node import Node
 from aStar.experiments import Experiment
 
