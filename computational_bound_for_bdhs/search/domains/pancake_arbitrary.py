@@ -5,8 +5,9 @@ class Pancake_arbitrary(Domain):
     def __init__(self, initial, goal):
         self.epsilon_global = 1
         self.iota_global = 1
-        initial=tuple([int(i) for i in initial]+[len(initial)+1]) # [len(initial)+1] adds the table to the state
-        goal=tuple([int(i) for i in goal]+[len(initial)+1])
+        table = [len(initial)+1]
+        initial=tuple([int(i) for i in initial]+table) 
+        goal=tuple([int(i) for i in goal]+table)
         super().__init__(initial, goal)     #assumes the goal state is [1,2,3,...,n]
 
     def actions(self, state):

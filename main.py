@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+import functools
 from tqdm import tqdm
 
 from computational_bound_for_bdhs.bound_bdhs.constants import run_protocol_definitions, search_pattern, output_headers
@@ -24,7 +25,8 @@ degradation=0
 
 for domain_category in domain_categories: 
     for domain_type in domain_types:
-        problem_set, domain, heuristic = search_pattern[domain_category][domain_type]
+        problem_set, domain, base_heuristic = search_pattern[domain_category][domain_type]
+        heuristic = functools.partial(base_heuristic, degradation=degradation)
         problem_set = get_problems(problem_set)
 
         paths = ['results/'+domain.__name__+'/search/d'+str(degradation) if run_search else None,  #
