@@ -1,12 +1,8 @@
-def gap_unit_cost(node, state_2, *, degradation):
+def gap_unit_cost_helper(state_1, state_2, *, degradation):
     # * before degradation in parameters means we must pass degradation as a kewword argument
     # This is here to avoid errors (i.e. if we forget to set degradation)
     # In practice it shouldn't make usage any different, since we have aliased the heuristic using functools in main.py
     
-    if type(state_2) is not tuple:
-        state_2=state_2.state
-
-    state_1=node.state
     heuristic_value=0
 
     for i in range(0,len(state_1)-1):
@@ -58,6 +54,16 @@ def gap_arbitrary_cost_helper(state_1, state_2, *, degradation):
         heuristic_value+=min(pancake_i,pancake_j)
 
     return heuristic_value
+
+
+def gap_unit_cost(node, state_2, *, degradation):
+    if type(state_2) is not tuple:
+        state_2 = state_2.state
+    state_1 = node.state
+    return max(
+        gap_unit_cost_helper(state_1, state_2, degradation=degradation),
+        gap_unit_cost_helper(state_2, state_1, degradation=degradation)
+    )
 
 
 def gap_arbitrary_cost(node, state_2, *, degradation):
