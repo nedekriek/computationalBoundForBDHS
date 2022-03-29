@@ -44,7 +44,7 @@ def sat(collision_below_c_star: bool, max_node_id: int, bound: str, bound_type :
     must_expand_pair_nodes, _ =deserialize(bound_constraints_path_prefix+'must_expand_clauses'+path_suffix)
     must_expand_pair_nodes = set(must_expand_pair_nodes)
 
-    soft_clauses = must_expand_pair_nodes #we always want the might expand pair nodes
+    soft_clauses = must_expand_pair_nodes.copy() #we always want the might expand pair nodes
     hard_clauses = []
 
     for clause_set in bound_clauses:
