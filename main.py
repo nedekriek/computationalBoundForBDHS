@@ -41,7 +41,8 @@ for domain_category in domain_categories:
         #          'results/'+domain.__name__+'/']
 
         version = datetime.now().strftime('date_%d_%m_%y_time_%H_%M')
-        csv_file = open(paths[3]+'results_'+version+'.csv', "w")
+        csv_file = open(paths[3]+version+'degradation_'+str(degradation)+'.csv', "w") #add degradation to filename - Pat
+
         writer=csv.writer(csv_file)
         writer.writerow(output_headers)
 
