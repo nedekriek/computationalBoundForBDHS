@@ -8,7 +8,7 @@ GID ?= bounds
 .PHONY: docker docker-push docker-pull enter
 
 docker:
-	docker build --tag $(IMAGE):$(GIT_TAG) . -f Dockerfile
+	docker build --platform linux/amd64 --tag $(IMAGE):$(GIT_TAG) . -f Dockerfile
 	docker tag $(IMAGE):$(GIT_TAG) $(IMAGE):latest
 
 docker-push:
@@ -20,7 +20,7 @@ docker-pull:
 	docker tag $(IMAGE):$(GIT_TAG) $(IMAGE):latest
 
 enter:
-	docker run -it --rm -v $$(pwd):/code -w /code -u $(UID):$(GID) $(IMAGE) bash
+	docker run --platform linux/amd64 -it --rm -v $$(pwd):/code -w /code -u $(UID):$(GID) $(IMAGE) bash
 	
 experiment:
-	docker run -it --rm -v $$(pwd):/code -w /code -u $(UID):$(GID) $(IMAGE) python3.10 main.py
+	docker run --platform linux/amd64 -it --rm -v $$(pwd):/code -w /code -u $(UID):$(GID) $(IMAGE) python3.10 main.py
