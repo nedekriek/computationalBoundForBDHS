@@ -83,4 +83,4 @@ dependencies:
     - pytest 
     - python-sat 
     - toposort 
-#prefix: C:\Users\nedekriek\Miniconda3\envs\research
+prefix: C:\Users\nedekriek\Miniconda3\envs\research
