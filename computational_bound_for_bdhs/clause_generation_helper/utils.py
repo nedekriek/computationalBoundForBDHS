@@ -9,7 +9,7 @@ def static_front_to_end_lb(node_values_f, node_values_b):
     epsilon=min(epsilon_f, epsilon_b)
 
     return max(g_value_f + g_value_b + epsilon,
-               g_value_f + max(epsilon, h_value_f + d_value_b), 
+               g_value_f + max(epsilon, h_value_f + d_value_b),
                g_value_b + max(epsilon, h_value_b + d_value_f),
                iota * ceil(((b_value_f + b_value_b)/2)/ iota))
 
@@ -30,8 +30,7 @@ def dynamic_front_to_end_lb(node_f, node_b, heuristic_function, epsilon_global: 
 
 def dynamic_front_to_front_lb(node_f, node_b, heuristic_function, epsilon_global: int, iota_global: int, global_info:bool):
     epsilon = epsilon_global if global_info else min(node_f.epsilon, node_b.epsilon)
-    
-    return  node_f.g + node_b.g + max(epsilon, heuristic_function(node_f, node_b))
+    return node_f.g + node_b.g + max(epsilon, heuristic_function(node_f, node_b))
 
 def get_node_values(node, epsilon_global: int, iota_global: int, global_info:bool):
     return (node.g, 

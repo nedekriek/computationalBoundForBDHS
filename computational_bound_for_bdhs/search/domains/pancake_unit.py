@@ -5,13 +5,14 @@ class Pancake_unit(Domain):
     def __init__(self, initial, goal): 
         self.epsilon_global = 1
         self.iota_global = 1
-        initial=tuple([int(i) for i in initial])
-        goal=tuple([int(i) for i in goal])
+        table = [len(initial)+1]
+        initial=tuple([int(i) for i in initial]+table) 
+        goal=tuple([int(i) for i in goal]+table)
         super().__init__(initial, goal)     #assumes the goal state is [1,2,3,...,n]
 
     def actions(self, state):
         """Returns the index of the pancake that is under the flipper. This pancake will not be flipped."""
-        possible_actions=[pancake_under_flipper for pancake_under_flipper in range(2,len(state)+1)]
+        possible_actions=[pancake_under_flipper for pancake_under_flipper in range(2,len(state))]
         return possible_actions
 
     def result(self, state, action):

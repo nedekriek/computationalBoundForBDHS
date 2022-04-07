@@ -5,13 +5,14 @@ class Pancake_arbitrary(Domain):
     def __init__(self, initial, goal):
         self.epsilon_global = 1
         self.iota_global = 1
-        initial=tuple([int(i) for i in initial])
-        goal=tuple([int(i) for i in goal])
+        table = [len(initial)+1]
+        initial=tuple([int(i) for i in initial]+table) 
+        goal=tuple([int(i) for i in goal]+table)
         super().__init__(initial, goal)     #assumes the goal state is [1,2,3,...,n]
 
     def actions(self, state):
-        """Returns the index of the pancake that is under the flipper. This pancake will not be flipped."""
-        possible_actions=[pancake_under_flipper for pancake_under_flipper in range(2,len(state)+1)]
+        """Returns the index of the pancake that is under the flipper. This pancake will not be flipped. DO NOT MOVE THE TABLE (THE HIGHEST NUM)!"""
+        possible_actions=[pancake_under_flipper for pancake_under_flipper in range(2,len(state))]
         return possible_actions
 
     def result(self, state, action):
@@ -21,9 +22,6 @@ class Pancake_arbitrary(Domain):
         flipped_portion.reverse()
         return tuple(flipped_portion + state[action:])
 
-    def path_cost(self, c, state1, action, state2):
-        if action == len(state1):
-            cost=action+1
-        else:           
-            cost=state1[action]
+    def path_cost(self, c, state1, action, state2):          
+        cost=state1[action]
         return c+cost
