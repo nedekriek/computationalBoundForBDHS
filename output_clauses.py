@@ -17,11 +17,16 @@ def print_clauses(fp):
 
 
 if __name__ == "__main__":
-    state = "1234657_1234567"
-    degradation = 0
-    cost_type = "arbitrary"
+    state = "1234576_1234567"
+    print("state:",state)
+    degradation = 5
+    print("degradation:",degradation)
+    cost_type = "unit"
+    print("cost_type:",cost_type)
     search_type = "front_to_end"
+    print("search_type:",search_type)
     bound_type = "ub"
+    print("bound_type:",bound_type)
     print_search_graph(state, degradation, cost_type)
     print("Sat Solution")
     print(deserialize(f"results/Pancake_{cost_type}/sat/d{degradation}/{bound_type}/{search_type}/global/{state}.obj"))

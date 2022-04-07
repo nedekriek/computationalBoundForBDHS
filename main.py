@@ -22,7 +22,7 @@ domain_categories = ['pancake', 'eight_puzzle'] if domain_category == [] else do
 domain_types = ['unit', 'arbitrary'] if domain_types == [] else domain_types
 run_protocol = run_protocol_definitions if run_protocol == [] else [run_protocol_definitions[i] for i in run_protocol]
 
-degradations=[0,1,2,3,4,5,6,7]
+degradations = list(range(6))
 
 for (degradation, domain_category, domain_type) in product(degradations, domain_categories, domain_types):
     problem_set, domain, base_heuristic = search_pattern[domain_category][domain_type]
